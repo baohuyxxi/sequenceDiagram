@@ -1,0 +1,83 @@
+title Đăng nhập
+actor Actor
+boundary Trang chủ
+boundary Form đăng nhập
+control AuthController
+participant UserService
+database Database
+
+
+
+activate Actor 
+activate Trang chủ
+Actor->Trang chủ: Nhấn nút đăng nhập
+Trang chủ->Form đăng nhập: Hiển thị form
+
+activate Form đăng nhập
+
+Actor->Form đăng nhập: Nhập email
+
+activate Form đăng nhập
+Form đăng nhập->Form đăng nhập:Kiểm tra định dạng email
+deactivate Form đăng nhập
+
+alt email sai định dạng
+Form đăng nhập -->Actor:Thông báo email không đúng định dạng
+end
+activate AuthController
+Form đăng nhập-> AuthController: Yêu cầu kiểm tra email
+activate Database
+AuthController->Database:Yêu cầu lấy dữ liệu
+Database-->AuthController:Trả về kết quả
+deactivate Database
+activate Form đăng nhập
+
+AuthController-->Form đăng nhập:Trả về kết quả
+deactivate AuthController
+alt email chưa tồn tại
+Form đăng nhập -->Actor:Hiện nút đăng ký
+end
+Form đăng nhập -->Actor: Hiện ô nhập mật khẩu
+deactivate Form đăng nhập
+Actor->Form đăng nhập: Nhập mật khẩu và nhấn đăng nhập
+deactivate Actor
+
+Form đăng nhập-> AuthController: Yêu cầu đăng nhập
+deactivate Form đăng nhập
+activate AuthController
+activate Database
+AuthController->Database:Yêu cầu lấy dữ liệu
+Database-->AuthController:Trả về kết quả
+deactivate Database
+
+alt Thông tin không hợp lệ
+activate Form đăng nhập
+AuthController -->Form đăng nhập: Trả về kết quả
+
+
+activate Actor
+Form đăng nhập-->Actor: Thông báo lỗi
+deactivate Form đăng nhập
+deactivate Form đăng nhập
+deactivate Actor
+end
+
+activate UserService
+AuthController->UserService: Yêu cầu lấy dữ liệu
+activate Database
+UserService->Database: Lưu refreshToken
+Database-->UserService: Trả về kết quả
+deactivate Database
+
+UserService-->AuthController:Trả về kết quả
+deactivate UserService
+activate Form đăng nhập
+AuthController-->Form đăng nhập:Trả về kết quả
+deactivate AuthController
+activate Actor
+Form đăng nhập -->Actor: Thông báo thành công
+deactivate Form đăng nhập
+
+
+
+
