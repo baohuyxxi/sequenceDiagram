@@ -58,7 +58,6 @@ AuthController -->Form đăng nhập: Trả về kết quả
 activate Actor
 Form đăng nhập-->Actor: Thông báo lỗi
 deactivate Form đăng nhập
-deactivate Form đăng nhập
 deactivate Actor
 end
 
@@ -77,7 +76,3 @@ deactivate AuthController
 activate Actor
 Form đăng nhập -->Actor: Thông báo thành công
 deactivate Form đăng nhập
-
-
-
-
