@@ -1,0 +1,31 @@
+title Xem Danh sách Chỗ ở
+actor Người dùng
+boundary Trang chủ
+boundary Trang danh sách chỗ ở
+control PublicsController
+participant Service
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ:Nhấn nút danh sách trên thanh appbar của trang chủ
+activate Trang chủ
+Trang chủ->Trang danh sách chỗ ở: Chuyển đến trang danh sách chỗ ở
+deactivate Trang chủ
+activate Trang danh sách chỗ ở
+
+Trang danh sách chỗ ở->PublicsController: Gửi yêu cầu lấy danh sách chỗ ở
+activate PublicsController
+PublicsController->Service: Gửi yêu cầu lấy danh sách chỗ ở
+activate Service
+Service->Database: Lấy dữ liệu chỗ ở từ Database
+activate Database
+Database-->Service: Trả về kết quả
+deactivate Database
+Service-->PublicsController: Trả về danh sách chỗ ở
+deactivate Service
+PublicsController-->Trang danh sách chỗ ở: Trả về danh sách chỗ ở
+deactivate PublicsController
+
+Trang danh sách chỗ ở->Người dùng: Hiển thị danh sách chỗ ở
+deactivate Trang danh sách chỗ ở
+
