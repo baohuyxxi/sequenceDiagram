@@ -1,0 +1,44 @@
+title Xem và Khóa/Mở Danh sách Chỗ ở (Admin)
+actor Admin
+boundary Trang Quản lý Chỗ ở
+control AdminController
+participant AdminService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Chỗ ở: Truy cập trang quản lý chỗ ở
+activate Trang Quản lý Chỗ ở
+Trang Quản lý Chỗ ở->AdminController: Yêu cầu danh sách chỗ ở
+activate AdminController
+AdminController->AdminService: Gửi yêu cầu lấy danh sách chỗ ở
+activate AdminService
+AdminService->Database: Lấy dữ liệu chỗ ở từ Database
+activate Database
+Database-->AdminService: Trả về kết quả danh sách chỗ ở
+deactivate Database
+AdminService-->AdminController: Trả về danh sách chỗ ở
+deactivate AdminService
+AdminController-->Trang Quản lý Chỗ ở: Hiển thị danh sách chỗ ở
+deactivate AdminController
+Trang Quản lý Chỗ ở-->Admin: Hiển thị danh sách chỗ ở
+
+
+Admin->Trang Quản lý Chỗ ở: Chọn chỗ ở cần khóa/mở khóa
+
+Trang Quản lý Chỗ ở->AdminController: Gửi yêu cầu khóa/mở khóa chỗ ở
+activate AdminController
+AdminController->AdminService: Xử lý yêu cầu khóa/mở khóa chỗ ở
+activate AdminService
+AdminService->Database: Cập nhật trạng thái chỗ ở trong Database
+activate Database
+Database-->AdminService: Trả về kết quả cập nhật
+deactivate Database
+AdminService-->AdminController: Trả về kết quả cập nhật
+deactivate AdminService
+
+AdminController-->Trang Quản lý Chỗ ở: Cập nhật trạng thái chỗ ở
+deactivate AdminController
+Trang Quản lý Chỗ ở-->Admin: Hiển thị thông báo, cập nhật lại trạng thái chỗ ở
+
+deactivate Trang Quản lý Chỗ ở
+deactivate Admin

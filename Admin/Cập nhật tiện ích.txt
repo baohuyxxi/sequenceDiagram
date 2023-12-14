@@ -1,0 +1,32 @@
+title Cập nhật Tiện ích
+actor Admin
+boundary Trang Quản lý Tiện ích
+control AmenityController
+participant AmenityService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Tiện ích: Truy cập trang quản lý tiện ích
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Chọn tiện ích cần cập nhật
+
+Trang Quản lý Tiện ích->Trang Quản lý Tiện ích: Mở popup cập nhật
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Thay đổi thông tin và nhấn "Cập nhật"
+
+Trang Quản lý Tiện ích->AmenityController: Gửi yêu cầu cập nhật
+deactivate Trang Quản lý Tiện ích
+activate AmenityController
+AmenityController->AmenityService: Xử lý yêu cầu cập nhật
+activate AmenityService
+AmenityService->Database: Cập nhật thông tin mới vào Database
+activate Database
+Database-->AmenityService: Xác nhận đã cập nhật thành công
+deactivate Database
+AmenityService-->AmenityController: Trả về kết quả cập nhật
+deactivate AmenityService
+AmenityController-->Trang Quản lý Tiện ích: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate AmenityController
+Trang Quản lý Tiện ích-->Admin: Hiển thị thông báo và danh sách tiện ích đã được cập nhật
+deactivate Trang Quản lý Tiện ích
+deactivate Admin

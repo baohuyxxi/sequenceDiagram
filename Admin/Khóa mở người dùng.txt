@@ -21,10 +21,9 @@ deactivate AdminService
 AdminController-->Trang Quản lý Người dùng: Hiển thị danh sách người dùng
 deactivate AdminController
 Trang Quản lý Người dùng-->Admin:Hiển thị danh sách người dùng
-deactivate Trang Quản lý Người dùng
 
 Admin->Trang Quản lý Người dùng: Chọn người dùng cần khóa/mở khóa
-activate Trang Quản lý Người dùng
+
 Trang Quản lý Người dùng->AdminController: Gửi yêu cầu khóa/mở khóa tài khoản
 activate AdminController
 AdminController->AdminService: Xử lý yêu cầu khóa/mở khóa tài khoản

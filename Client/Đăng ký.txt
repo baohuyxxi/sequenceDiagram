@@ -1,75 +1,87 @@
 title Đăng ký
-actor Actor
+actor Người dùng
 boundary Trang chủ
-boundary Form đăng nhập
-boundary Form đăng ký
+boundary Trang chủ
+boundary Trang chủ
 control AuthController
 participant UserService
 database Database
 
-activate Actor 
+
+
+activate Người dùng 
 activate Trang chủ
-Actor->Trang chủ: Nhấn nút đăng nhập
-Trang chủ->Form đăng nhập: Hiển thị form dialog
+Người dùng->Trang chủ: Nhấn nút đăng nhập
+Trang chủ->Trang chủ:Hiển thị Dialog đăng nhập\n
 
-activate Form đăng nhập
+activate Trang chủ
 
-Actor->Form đăng nhập: Nhập email
+Người dùng->Trang chủ: Nhập email
 
-activate Form đăng nhập
-Form đăng nhập->Form đăng nhập:Kiểm tra định dạng email
-deactivate Form đăng nhập
+activate Trang chủ
+Trang chủ->Trang chủ:Kiểm tra định dạng email
+deactivate Trang chủ
 
 alt email sai định dạng
-Form đăng nhập -->Actor:Thông báo email không đúng định dạng
+Trang chủ -->Người dùng:Thông báo email không đúng định dạng
+deactivate Người dùng
 end
-
+activate Người dùng
+Trang chủ-> AuthController: Yêu cầu kiểm tra email
 activate AuthController
-Form đăng nhập-> AuthController: Yêu cầu kiểm tra email
+
+AuthController->UserService:Yêu cầu kiểm tra
+activate UserService
+UserService->Database:Yêu cầu dữ liệu
 activate Database
-AuthController->Database:Yêu cầu lấy dữ liệu
-Database-->AuthController:Trả về kết quả
+Database-->UserService: Trả về dữ liệu
 deactivate Database
+UserService->AuthController:Trả về kết quả
+deactivate UserService
 
-AuthController-->Form đăng nhập:Trả về kết quả
+
+AuthController-->Trang chủ:Trả về kết quả
 deactivate AuthController
-
 alt email đã tồn tại
-Form đăng nhập -->Actor: Hiện ô nhập mật khẩu, nút đăng nhập
+
+Trang chủ -->Người dùng:Hiện ô nhập mật khẩu, nút đăng nhập, nút quên mật khẩu
+deactivate Người dùng
 end
+activate Người dùng
+Trang chủ -->Người dùng:Hiện nút đăng ký
 
-Form đăng nhập -->Actor:Hiện nút đăng ký
-deactivate Form đăng nhập
-Actor->Form đăng nhập: Ấn nút đăng ký
-deactivate Actor
+Người dùng->Trang chủ:Ấn nút đăng ký
 
-Form đăng nhập-> Form đăng ký: Hiển thị form
 
-activate Form đăng ký
-Actor->Form đăng ký: Nhập thông tin đăng ký
-activate Form đăng ký
-Form đăng ký->Form đăng ký:Kiểm tra dữ liệu nhập vào
-deactivate Form đăng ký
+Trang chủ->Trang chủ: Tắt Dialog đăng nhập
+deactivate Trang chủ
 
+Trang chủ->Trang chủ:Mở Dialog đăng ký
+activate Trang chủ
+Người dùng->Trang chủ:Nhập thông tin đăng ký
+Trang chủ->Trang chủ:Kiểm tra dữ liệu nhập vào
 alt Dữ liệu nhập vào không hợp lệ
-activate Actor
-Form đăng ký-->Actor: Họ, tên chưa đúng hoặc mật khẩu chưa đủ yêu cầu
-deactivate Actor
+Trang chủ-->Người dùng:Họ, tên chưa đúng hoặc mật khẩu chưa đủ yêu cầu
+deactivate Người dùng
 end
-
-Form đăng ký->AuthController:Yêu cầu đăng ký
-deactivate Form đăng ký
+activate Người dùng
+Trang chủ->AuthController:Yêu cầu đăng ký
 activate AuthController
+deactivate Trang chủ
+
 AuthController->UserService:Yêu cầu đăng ký
 activate UserService
 UserService->Database:Thêm người dùng
 activate Database
-Database-->UserService:Trả về kết quả
+Database-->UserService: Trả về kết quả
 deactivate Database
 UserService-->AuthController:Trả về kết quả
 deactivate UserService
-AuthController-->Trang chủ:Trả kết quả về
+
+AuthController-->Trang chủ:Trả về kết quả
 deactivate AuthController
-activate Actor
-Trang chủ-->Actor:Thông báo đăng ký thành công
-deactivate Actor
+Trang chủ-->Người dùng:Thông báo đăng ký thành công
+deactivate Trang chủ
+deactivate Người dùng
+
+

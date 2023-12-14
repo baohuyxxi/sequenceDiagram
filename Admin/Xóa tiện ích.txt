@@ -1,0 +1,22 @@
+title Xóa Tiện ích
+actor Admin
+boundary Trang Quản lý Tiện ích
+control AmenityController
+participant AmenityService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Tiện ích: Truy cập trang quản lý tiện ích
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Chọn tiện ích cần xóa
+
+Trang Quản lý Tiện ích->Trang Quản lý Tiện ích: Hiển thị xác nhận xóa
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Nhấn nút "Xóa"
+
+Trang Quản lý Tiện ích->AmenityController: Gửi yêu cầu xóa
+deactivate Trang Quản lý Tiện ích
+activate AmenityController
+AmenityController->AmenityService: Xử lý yêu cầu xóa
+activate AmenityService
+AmenityService->Database: Cập nhật trạng thái deleted

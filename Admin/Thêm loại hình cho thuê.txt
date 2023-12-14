@@ -1,0 +1,33 @@
+title Thêm mới Loại hình cho thuê
+actor Admin
+boundary Trang Quản lý Loại hình cho thuê
+control AccomCategoryController
+participant AccomCategoryService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại hình cho thuê: Truy cập trang quản lý loại hình cho thuê
+activate Trang Quản lý Loại hình cho thuê
+Admin->Trang Quản lý Loại hình cho thuê: Nhấn nút "Thêm mới"
+
+Trang Quản lý Loại hình cho thuê->Trang Quản lý Loại hình cho thuê: Mở popup thêm mới
+activate Trang Quản lý Loại hình cho thuê
+Admin->Trang Quản lý Loại hình cho thuê: Nhập thông tin mới và nhấn "Thêm mới"
+
+
+Trang Quản lý Loại hình cho thuê->AccomCategoryController: Gửi yêu cầu thêm mới
+deactivate Trang Quản lý Loại hình cho thuê
+activate AccomCategoryController
+AccomCategoryController->AccomCategoryService: Xử lý yêu cầu thêm mới
+activate AccomCategoryService
+AccomCategoryService->Database: Lưu dữ liệu mới vào Database
+activate Database
+Database-->AccomCategoryService: Xác nhận đã thêm mới thành công
+deactivate Database
+AccomCategoryService-->AccomCategoryController: Trả về kết quả thêm mới
+deactivate AccomCategoryService
+AccomCategoryController-->Trang Quản lý Loại hình cho thuê: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate AccomCategoryController
+Trang Quản lý Loại hình cho thuê-->Admin: Hiển thị thông báo và danh sách loại hình đã được cập nhật
+deactivate Trang Quản lý Loại hình cho thuê
+deactivate Admin

@@ -1,0 +1,32 @@
+title Thêm mới Loại Tiện ích
+actor Admin
+boundary Trang Quản lý Tiện ích
+control AmenityController
+participant AmenityService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Tiện ích: Truy cập trang quản lý tiện ích
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Nhấn nút "Thêm mới"
+
+Trang Quản lý Tiện ích->Trang Quản lý Tiện ích: Mở popup thêm mới
+activate Trang Quản lý Tiện ích
+Admin->Trang Quản lý Tiện ích: Nhập thông tin mới và nhấn "Thêm mới"
+
+Trang Quản lý Tiện ích->AmenityController: Gửi yêu cầu thêm mới
+deactivate Trang Quản lý Tiện ích
+activate AmenityController
+AmenityController->AmenityService: Xử lý yêu cầu thêm mới
+activate AmenityService
+AmenityService->Database: Lưu dữ liệu mới vào Database
+activate Database
+Database-->AmenityService: Xác nhận đã thêm mới thành công
+deactivate Database
+AmenityService-->AmenityController: Trả về kết quả thêm mới
+deactivate AmenityService
+AmenityController-->Trang Quản lý Tiện ích: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate AmenityController
+Trang Quản lý Tiện ích-->Admin: Hiển thị thông báo và danh sách tiện ích đã được cập nhật
+deactivate Trang Quản lý Tiện ích
+deactivate Admin

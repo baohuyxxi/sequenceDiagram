@@ -1,0 +1,32 @@
+title Cập nhật Loại phụ phí
+actor Admin
+boundary Trang Quản lý Loại phụ phí
+control SurchargeTypeController
+participant SurchargeTypeService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại phụ phí: Truy cập trang quản lý loại phụ phí
+activate Trang Quản lý Loại phụ phí
+Admin->Trang Quản lý Loại phụ phí: Chọn loại phụ phí cần cập nhật
+
+Trang Quản lý Loại phụ phí->Trang Quản lý Loại phụ phí:Hiển thị hộp thoại sửa đổi thông tin phụ phí
+activate Trang Quản lý Loại phụ phí
+Admin->Trang Quản lý Loại phụ phí:Nhập thông tin mới và nhấn "Cập nhật"
+
+Trang Quản lý Loại phụ phí->SurchargeTypeController: Gửi yêu cầu cập nhật
+deactivate Trang Quản lý Loại phụ phí
+activate SurchargeTypeController
+SurchargeTypeController->SurchargeTypeService: Xử lý yêu cầu cập nhật
+activate SurchargeTypeService
+SurchargeTypeService->Database: Cập nhật thông tin loại phụ phí trong Database
+activate Database
+Database-->SurchargeTypeService: Xác nhận đã cập nhật thành công
+deactivate Database
+SurchargeTypeService-->SurchargeTypeController: Trả về kết quả cập nhật
+deactivate SurchargeTypeService
+SurchargeTypeController-->Trang Quản lý Loại phụ phí:Hiển thị thông báo cập nhật thành công và cập nhật danh sách
+deactivate SurchargeTypeController
+Trang Quản lý Loại phụ phí-->Admin: Hiển thị thông báo và danh sách loại phụ phí đã được cập nhật
+deactivate Trang Quản lý Loại phụ phí
+deactivate Admin

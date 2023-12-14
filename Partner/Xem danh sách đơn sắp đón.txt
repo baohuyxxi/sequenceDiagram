@@ -1,0 +1,28 @@
+title Xem Danh sách Phòng sắp nhận
+actor Người cho thuê
+boundary Trang Quản lý Chỗ ở
+control AccommodationController
+participant AccommodationService
+database Database
+
+activate Người cho thuê
+Người cho thuê->Trang Quản lý Chỗ ở: Truy cập trang quản lý chỗ ở
+
+activate Trang Quản lý Chỗ ở
+Người cho thuê->Trang Quản lý Chỗ ở:Chọn tab "Sắp nhận phòng"
+
+Trang Quản lý Chỗ ở->AccommodationController: Yêu cầu xem danh sách phòng sắp nhận
+activate AccommodationController
+AccommodationController->AccommodationService: Gửi yêu cầu xem danh sách phòng sắp nhận
+activate AccommodationService
+AccommodationService->Database: Truy vấn danh sách phòng sắp nhận từ Database
+activate Database
+Database-->AccommodationService: Trả về danh sách phòng sắp nhận
+deactivate Database
+AccommodationService-->AccommodationController: Trả về kết quả danh sách phòng sắp nhận
+deactivate AccommodationService
+AccommodationController-->Trang Quản lý Chỗ ở: Hiển thị danh sách phòng sắp nhận
+deactivate AccommodationController
+Trang Quản lý Chỗ ở-->Người cho thuê: Hiển thị danh sách phòng sắp nhận
+deactivate Trang Quản lý Chỗ ở
+deactivate Người cho thuê

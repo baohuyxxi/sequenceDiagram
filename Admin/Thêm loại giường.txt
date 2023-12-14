@@ -1,0 +1,32 @@
+title Thêm mới Loại giường
+actor Admin
+boundary Trang Quản lý Loại giường
+control BedTypeController
+participant BedTypeService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại giường: Truy cập trang quản lý loại giường
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Nhấn nút "Thêm mới"
+
+Trang Quản lý Loại giường->Trang Quản lý Loại giường: Mở popup thêm mới
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Nhập thông tin mới và nhấn "Thêm mới"
+
+Trang Quản lý Loại giường->BedTypeController: Gửi yêu cầu thêm mới
+deactivate Trang Quản lý Loại giường
+activate BedTypeController
+BedTypeController->BedTypeService: Xử lý yêu cầu thêm mới
+activate BedTypeService
+BedTypeService->Database: Lưu dữ liệu mới vào Database
+activate Database
+Database-->BedTypeService: Xác nhận đã thêm mới thành công
+deactivate Database
+BedTypeService-->BedTypeController: Trả về kết quả thêm mới
+deactivate BedTypeService
+BedTypeController-->Trang Quản lý Loại giường: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate BedTypeController
+Trang Quản lý Loại giường-->Admin: Hiển thị thông báo và danh sách loại giường đã được cập nhật
+deactivate Trang Quản lý Loại giường
+deactivate Admin
