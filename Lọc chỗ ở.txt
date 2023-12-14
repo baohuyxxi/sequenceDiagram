@@ -1,0 +1,39 @@
+title Lọc Chỗ ở
+actor Người dùng
+boundary Trang danh sách chỗ ở
+participant DialogFilter
+control PublicsController
+participant PublicsService
+database Database
+
+activate Người dùng
+Người dùng->Trang danh sách chỗ ở: Nhấn nút "Lọc"
+activate Trang danh sách chỗ ở
+Trang danh sách chỗ ở->DialogFilter: Mở dialog bộ lọc
+activate DialogFilter
+Người dùng->DialogFilter:Chọn địa chỉ
+activate DialogFilter
+Người dùng->DialogFilter: Chọn giới hạn giá
+Người dùng->DialogFilter: Chọn các tiện ích mong muốn
+Người dùng->DialogFilter: Chọn số phòng mong muốn
+DialogFilter->DialogFilter:Xử lý các tiêu chí
+deactivate DialogFilter
+Người dùng->DialogFilter: Nhấn nút Ok
+DialogFilter->PublicsController:Gửi yêu cầu lọc
+activate PublicsController
+DialogFilter->Trang danh sách chỗ ở: Đóng dialog bộ lọc
+deactivate DialogFilter
+
+PublicsController->PublicsService: Gửi yêu cầu lọc
+activate PublicsService
+PublicsService->Database: Lấy dữ liệu lọc từ Database
+activate Database
+Database-->PublicsService: Trả về kết quả lọc
+deactivate Database
+PublicsService-->PublicsController: Trả về danh sách chỗ ở đã lọc
+deactivate PublicsService
+PublicsController-->Trang danh sách chỗ ở: Hiển thị danh sách chỗ ở đã lọc
+deactivate PublicsController
+
+Trang danh sách chỗ ở-->Người dùng: Hiển thị danh sách chỗ ở đã lọc
+deactivate Trang danh sách chỗ ở
