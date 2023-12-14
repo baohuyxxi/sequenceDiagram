@@ -1,0 +1,75 @@
+title Đổi mật khẩu
+actor Người dùng
+boundary Trang chủ
+boundary Trang tài khoản
+control AuthController
+participant UserService
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh appbar
+activate Trang chủ
+Trang chủ-->Người dùng:Hiện danh sách thả xuống
+
+
+Người dùng->Trang chủ: Nhấn nút "Quản lý tài khoản"
+
+Trang chủ->Trang tài khoản:Chuyển trang "Quản lý tài khoản"
+deactivate Trang chủ
+
+
+activate Trang tài khoản
+Người dùng->Trang tài khoản: Nhấn vào nút "Đổi mật khẩu"
+activate Trang tài khoản
+Trang tài khoản->Trang tài khoản: Hiển thị form đổi mật khẩu
+deactivate Trang tài khoản
+
+
+Người dùng->Trang tài khoản: Nhập mật khẩu hiện tại, mật khẩu mới, mật khẩu mới lần 2
+activate Trang tài khoản
+Trang tài khoản->Trang tài khoản:Kiểm tra dữ liệu nhập
+deactivate Trang tài khoản
+alt Dữ liệu nhập sai định dạng hoặc thiếu yêu cầu
+Trang tài khoản-->Người dùng:Thông báo lỗi
+end
+
+Trang tài khoản->AuthController: Gửi yêu cầu
+activate AuthController
+AuthController->UserService: Gửi yêu cầu
+activate UserService
+
+UserService->Database:Yêu cầu dữ liệu
+activate Database
+
+Database-->UserService: Dữ liệu tài khoản
+deactivate Database
+activate UserService
+UserService->UserService:Xác thực dữ liệu
+deactivate UserService
+alt Mật khẩu hiện tại không đúng
+UserService-->AuthController:Trả về kết quả
+deactivate AuthController
+AuthController-->Trang tài khoản:Trả về kết quả
+
+Trang tài khoản-->Người dùng:Thông báo lỗi
+deactivate Trang tài khoản
+end
+
+UserService->Database: Đổi mật khẩu mới
+activate Database
+Database-->UserService:Trả về kết quả
+deactivate Database
+
+UserService-->AuthController:Trả về kết quả
+activate AuthController
+AuthController-->Trang tài khoản: Trả về kết quả
+deactivate AuthController
+activate Trang tài khoản
+Trang tài khoản-->Người dùng:Thông báo đổi mật khẩu thành công
+
+
+
+
+
+
+

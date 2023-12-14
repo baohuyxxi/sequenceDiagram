@@ -1,0 +1,49 @@
+title Sửa thông tin cá nhân
+actor Người dùng
+boundary Trang chủ
+boundary Trang tài khoản
+control AuthController
+participant UserService
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh appbar
+activate Trang chủ
+Trang chủ-->Người dùng:Hiện danh sách thả xuống
+
+activate Trang tài khoản
+Người dùng->Trang chủ: Nhấn nút "Quản lý tài khoản"
+Trang chủ->Trang tài khoản:Chuyển trang "Quản lý tài khoản"
+deactivate Trang chủ
+Trang tài khoản->AuthController: Yêu cầu dữ liệu
+activate AuthController
+AuthController->UserService: Yêu cầu dữ liệu
+activate UserService
+UserService->Database: Truy vấn dữ liệu người dùng
+activate Database
+Database-->UserService: Trả về thông tin người dùng
+deactivate Database
+UserService-->AuthController: Trả về kết quả
+deactivate UserService
+
+AuthController->Trang tài khoản:Trả về kết quả
+deactivate AuthController
+Trang tài khoản-->Người dùng: Hiện thị thôn tin người dùng
+
+Người dùng->Trang tài khoản: Cập nhật thông tin mới và nhấn nút "Lưu"
+Trang tài khoản->AuthController: Gửi thông tin cập nhật
+activate AuthController
+AuthController->UserService: Cập nhật thông tin người dùng
+activate UserService
+UserService->Database: Lưu thông tin mới vào cơ sở dữ liệu
+activate Database
+Database-->UserService: Xác nhận cập nhật thành công
+deactivate Database
+UserService-->AuthController: Xác nhận cập nhật thành công
+deactivate UserService
+AuthController-->Trang tài khoản: Hiển thị thông báo cập nhật thành công
+deactivate AuthController
+
+Trang tài khoản-->Người dùng: Hiển thị trang cá nhân với thông tin mới
+deactivate Trang tài khoản
+deactivate Người dùng

@@ -1,0 +1,36 @@
+title Xem thông tin cá nhân
+actor Actor
+boundary Trang chủ
+boundary Trang tài khoản
+control AuthController
+participant UserService
+database Database
+
+
+activate Actor
+activate Trang chủ
+Actor->Trang chủ: Nhấn vào nút thông tin cá nhân trên thanh appbar
+Trang chủ-->Actor:Hiện danh sách thả xuống
+Actor->Trang chủ:Nhấn nút "Quản lý tài khoản"
+deactivate Trang chủ
+deactivate Actor
+Trang chủ->Trang tài khoản:Chuyển trang "Quản lý tài khoản"
+activate Trang tài khoản
+Trang tài khoản->AuthController:Yêu cầu dữ liệu
+activate AuthController
+AuthController->UserService:Yêu cầu dữ liệu
+activate UserService
+UserService->Database: Yêu cầu dữ liệu
+activate Database
+Database-->UserService: Trả về kết quả
+deactivate Database
+UserService-->AuthController:Trả về kết quả
+
+deactivate UserService
+AuthController-->Trang tài khoản:Trả về kết quả
+deactivate AuthController
+
+Trang tài khoản-->Actor: Hiện thị thôn tin người dùng
+activate Actor
+
+
