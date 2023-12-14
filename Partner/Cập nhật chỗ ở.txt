@@ -1,0 +1,50 @@
+title Cập Nhật Chỗ ở
+actor Người cho thuê
+boundary Trang danh sách chỗ ở
+boundary Trang chỉnh sửa chỗ ở
+control PartnerManageAccomController
+participant PartnerManageAccomController
+
+
+participant PartnerManageAccomService
+database Database
+
+
+activate Người cho thuê
+Người cho thuê->Trang danh sách chỗ ở:Truy cập danh sách nhà
+activate Trang danh sách chỗ ở
+Trang danh sách chỗ ở->PartnerManageAccomController: Yêu cầu xem danh sách chỗ ở
+activate PartnerManageAccomController
+PartnerManageAccomController->PartnerManageAccomService: Xử lý yêu cầu xem danh sách chỗ ở
+activate PartnerManageAccomService
+PartnerManageAccomService->Database: Truy vấn danh sách chỗ ở từ Database
+activate Database
+Database-->PartnerManageAccomService: Trả về danh sách chỗ ở
+deactivate Database
+PartnerManageAccomService-->PartnerManageAccomController: Trả về kết quả danh sách chỗ ở
+deactivate PartnerManageAccomService
+PartnerManageAccomController-->Trang danh sách chỗ ở: Hiển thị danh sách chỗ ở
+deactivate PartnerManageAccomController
+Trang danh sách chỗ ở-->Người cho thuê:Hiển thị danh sách chỗ ở
+Người cho thuê->Trang danh sách chỗ ở:Chọn chỗ ở cần cập nhật
+Trang danh sách chỗ ở->Trang chỉnh sửa chỗ ở:Chuyển đến trang chỉnh sửa chỗ ở
+activate Trang chỉnh sửa chỗ ở
+deactivate Trang danh sách chỗ ở
+
+Người cho thuê->Trang chỉnh sửa chỗ ở: Thay đổi thông tin và nhấn "Cập nhật"
+Trang chỉnh sửa chỗ ở->PartnerManageAccomController:Yêu cầu chỉnh sửa
+
+activate PartnerManageAccomController
+PartnerManageAccomController->PartnerManageAccomService:Xử lý yêu cầu chỉnh sửa
+activate PartnerManageAccomService
+PartnerManageAccomService->Database:Cập nhật thông tin mới vào Database
+activate Database
+Database-->PartnerManageAccomService:Xác nhận thành công
+deactivate Database
+PartnerManageAccomService-->PartnerManageAccomController:Trả về kết quả
+PartnerManageAccomController-->Trang chỉnh sửa chỗ ở:Trả về kết quả
+Trang chỉnh sửa chỗ ở-->Người cho thuê:Thông báo cập nhật thành công
+deactivate Trang chỉnh sửa chỗ ở
+deactivate PartnerManageAccomService
+deactivate PartnerManageAccomController
+deactivate Người cho thuê

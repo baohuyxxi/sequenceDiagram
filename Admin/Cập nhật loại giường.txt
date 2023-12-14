@@ -1,0 +1,32 @@
+title Cập nhật Loại giường
+actor Admin
+boundary Trang Quản lý Loại giường
+control BedTypeController
+participant BedTypeService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại giường: Truy cập trang quản lý loại giường
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Chọn loại giường cần cập nhật
+
+Trang Quản lý Loại giường->Trang Quản lý Loại giường: Mở popup cập nhật
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Thay đổi thông tin và nhấn "Cập nhật"
+
+Trang Quản lý Loại giường->BedTypeController: Gửi yêu cầu cập nhật
+deactivate Trang Quản lý Loại giường
+activate BedTypeController
+BedTypeController->BedTypeService: Xử lý yêu cầu cập nhật
+activate BedTypeService
+BedTypeService->Database: Cập nhật thông tin mới vào Database
+activate Database
+Database-->BedTypeService: Xác nhận đã cập nhật thành công
+deactivate Database
+BedTypeService-->BedTypeController: Trả về kết quả cập nhật
+deactivate BedTypeService
+BedTypeController-->Trang Quản lý Loại giường: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate BedTypeController
+Trang Quản lý Loại giường-->Admin: Hiển thị thông báo và danh sách loại giường đã được cập nhật
+deactivate Trang Quản lý Loại giường
+deactivate Admin

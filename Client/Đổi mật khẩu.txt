@@ -31,8 +31,9 @@ Trang tài khoản->Trang tài khoản:Kiểm tra dữ liệu nhập
 deactivate Trang tài khoản
 alt Dữ liệu nhập sai định dạng hoặc thiếu yêu cầu
 Trang tài khoản-->Người dùng:Thông báo lỗi
+deactivate Người dùng
 end
-
+activate Người dùng
 Trang tài khoản->AuthController: Gửi yêu cầu
 activate AuthController
 AuthController->UserService: Gửi yêu cầu
@@ -43,29 +44,37 @@ activate Database
 
 Database-->UserService: Dữ liệu tài khoản
 deactivate Database
-activate UserService
+
 UserService->UserService:Xác thực dữ liệu
-deactivate UserService
+
 alt Mật khẩu hiện tại không đúng
 UserService-->AuthController:Trả về kết quả
-deactivate AuthController
-AuthController-->Trang tài khoản:Trả về kết quả
+deactivate UserService
 
+AuthController-->Trang tài khoản:Trả về kết quả
+deactivate AuthController
 Trang tài khoản-->Người dùng:Thông báo lỗi
+deactivate Người dùng
 deactivate Trang tài khoản
 end
-
+activate Người dùng
+activate UserService
+activate AuthController
+activate Trang tài khoản
 UserService->Database: Đổi mật khẩu mới
 activate Database
 Database-->UserService:Trả về kết quả
 deactivate Database
 
 UserService-->AuthController:Trả về kết quả
-activate AuthController
+deactivate UserService
+
 AuthController-->Trang tài khoản: Trả về kết quả
 deactivate AuthController
-activate Trang tài khoản
+
 Trang tài khoản-->Người dùng:Thông báo đổi mật khẩu thành công
+deactivate Trang tài khoản
+deactivate Người dùng
 
 
 

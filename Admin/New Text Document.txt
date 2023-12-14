@@ -1,0 +1,32 @@
+title Xóa Loại giường
+actor Admin
+boundary Trang Quản lý Loại giường
+control BedTypeController
+participant BedTypeService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại giường: Truy cập trang quản lý loại giường
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Chọn loại giường cần xóa
+
+Trang Quản lý Loại giường->Trang Quản lý Loại giường: Hiển thị xác nhận xóa
+activate Trang Quản lý Loại giường
+Admin->Trang Quản lý Loại giường: Nhấn nút "Xóa"
+
+Trang Quản lý Loại giường->BedTypeController: Gửi yêu cầu xóa
+deactivate Trang Quản lý Loại giường
+activate BedTypeController
+BedTypeController->BedTypeService: Xử lý yêu cầu xóa
+activate BedTypeService
+BedTypeService->Database: Cập nhật trạng thái deleted
+activate Database
+Database-->BedTypeService: Xác nhận đã xóa thành công
+deactivate Database
+BedTypeService-->BedTypeController: Trả về kết quả xóa
+deactivate BedTypeService
+BedTypeController-->Trang Quản lý Loại giường: Hiển thị thông báo xóa thành công và cập nhật danh sách
+deactivate BedTypeController
+Trang Quản lý Loại giường-->Admin: Hiển thị thông báo và danh sách loại giường đã được cập nhật
+deactivate Trang Quản lý Loại giường
+deactivate

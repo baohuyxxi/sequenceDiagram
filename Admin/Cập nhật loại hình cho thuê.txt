@@ -1,0 +1,32 @@
+title Cập nhật Loại hình cho thuê
+actor Admin
+boundary Trang Quản lý Loại hình cho thuê
+control AccomCategoryController
+participant AccomCategoryService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại hình cho thuê: Truy cập trang quản lý loại hình cho thuê
+activate Trang Quản lý Loại hình cho thuê
+Admin->Trang Quản lý Loại hình cho thuê: Chọn loại hình cần cập nhật
+
+Trang Quản lý Loại hình cho thuê->Trang Quản lý Loại hình cho thuê: Mở popup cập nhật
+activate Trang Quản lý Loại hình cho thuê
+Admin->Trang Quản lý Loại hình cho thuê: Thay đổi thông tin và nhấn "Cập nhật"
+
+Trang Quản lý Loại hình cho thuê->AccomCategoryController: Gửi yêu cầu cập nhật
+deactivate Trang Quản lý Loại hình cho thuê
+activate AccomCategoryController
+AccomCategoryController->AccomCategoryService: Xử lý yêu cầu cập nhật
+activate AccomCategoryService
+AccomCategoryService->Database: Cập nhật thông tin mới vào Database
+activate Database
+Database-->AccomCategoryService: Xác nhận đã cập nhật thành công
+deactivate Database
+AccomCategoryService-->AccomCategoryController: Trả về kết quả cập nhật
+deactivate AccomCategoryService
+AccomCategoryController-->Trang Quản lý Loại hình cho thuê: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate AccomCategoryController
+Trang Quản lý Loại hình cho thuê-->Admin: Hiển thị thông báo và danh sách loại hình đã được cập nhật
+deactivate Trang Quản lý Loại hình cho thuê
+deactivate Admin

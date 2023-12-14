@@ -1,0 +1,32 @@
+title Xóa Loại phụ phí
+actor Admin
+boundary Trang Quản lý Loại phụ phí
+control SurchargeTypeController
+participant SurchargeTypeService
+database Database
+
+activate Admin
+Admin->Trang Quản lý Loại phụ phí: Truy cập trang quản lý loại phụ phí
+activate Trang Quản lý Loại phụ phí
+Admin->Trang Quản lý Loại phụ phí: Chọn loại phụ phí cần xóa
+
+Trang Quản lý Loại phụ phí->Trang Quản lý Loại phụ phí: Hiển thị xác nhận xóa
+activate Trang Quản lý Loại phụ phí
+Admin->Trang Quản lý Loại phụ phí: Nhấn nút "Xóa"
+
+Trang Quản lý Loại phụ phí->SurchargeTypeController: Gửi yêu cầu xóa
+deactivate Trang Quản lý Loại phụ phí
+activate SurchargeTypeController
+SurchargeTypeController->SurchargeTypeService: Xử lý yêu cầu xóa
+activate SurchargeTypeService
+SurchargeTypeService->Database:Cập nhật trạng thái deleted
+activate Database
+Database-->SurchargeTypeService: Xác nhận đã xóa thành công
+deactivate Database
+SurchargeTypeService-->SurchargeTypeController: Trả về kết quả xóa
+deactivate SurchargeTypeService
+SurchargeTypeController-->Trang Quản lý Loại phụ phí:Hiển thị thông báo xóa thành công
+deactivate SurchargeTypeController
+Trang Quản lý Loại phụ phí-->Admin:Hiển thị thông báo cập nhật trạng thái
+deactivate Trang Quản lý Loại phụ phí
+deactivate Admin
