@@ -1,0 +1,54 @@
+title Hủy đặt phòng
+actor Người dùng
+boundary Trang chủ
+boundary Trang danh sách chỗ đặt
+control BookingController
+participant BookingService
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh appbar
+activate Trang chủ
+Trang chủ-->Người dùng:Hiện danh sách thả xuống
+
+activate Trang danh sách chỗ đặt
+Người dùng->Trang chủ:Nhấn nút "Quản lý chỗ đặt"
+Trang chủ->Trang danh sách chỗ đặt:Chuyển trang "Quản lý chỗ đặt"
+deactivate Trang chủ
+Trang danh sách chỗ đặt->BookingController: Yêu cầu dữ liệu
+activate BookingController
+BookingController->BookingService: Yêu cầu dữ liệu
+activate BookingService
+BookingService->Database: Truy vấn dữ liệu người dùng
+activate Database
+Database-->BookingService: Trả về thông tin người dùng
+deactivate Database
+BookingService-->BookingController: Trả về kết quả
+deactivate BookingService
+
+BookingController->Trang danh sách chỗ đặt:Trả về kết quả
+deactivate BookingController
+Trang danh sách chỗ đặt-->Người dùng:Hiện thị danh sách chỗ đặt, các đơn đặt chưa checkin sẽ có nút hủy đặt
+
+
+Người dùng->Trang danh sách chỗ đặt:Ấn hủy đặt
+Trang danh sách chỗ đặt->Trang danh sách chỗ đặt:Hiện hộp thoại xác nhận
+activate Trang danh sách chỗ đặt
+Người dùng->Trang danh sách chỗ đặt:Ấn nút "Có"
+Trang danh sách chỗ đặt->BookingController:Yêu cầu hủy đặt
+deactivate Trang danh sách chỗ đặt
+activate BookingController
+BookingController->BookingService:Yêu cầu hủy đặt
+
+activate BookingService
+BookingService->Database: Lưu dữ liệu
+activate Database
+Database-->BookingService:Trả về kết quả
+deactivate Database
+BookingService-->BookingController:Trả về kết quả
+deactivate BookingService
+BookingController-->Trang danh sách chỗ đặt:Trả về kết quả và cập nhật lại trạng thái
+deactivate BookingController
+Trang danh sách chỗ đặt-->Người dùng: Hiện thị thông báo hủy thành công
+deactivate Trang danh sách chỗ đặt
+deactivate Người dùng

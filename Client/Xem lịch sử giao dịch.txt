@@ -1,0 +1,34 @@
+title Xem lịch sử giao dịch
+actor Người dùng
+boundary Trang chủ
+boundary Trang danh sách chỗ đặt
+control BookingController
+participant BookingService
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh appbar
+activate Trang chủ
+Trang chủ-->Người dùng:Hiện danh sách thả xuống
+
+activate Trang danh sách chỗ đặt
+Người dùng->Trang chủ:Nhấn nút "Quản lý chỗ đặt"
+Trang chủ->Trang danh sách chỗ đặt:Chuyển trang "Quản lý chỗ đặt"
+deactivate Trang chủ
+Trang danh sách chỗ đặt->BookingController: Yêu cầu dữ liệu
+activate BookingController
+BookingController->BookingService: Yêu cầu dữ liệu
+activate BookingService
+BookingService->Database: Truy vấn dữ liệu người dùng
+activate Database
+Database-->BookingService: Trả về thông tin người dùng
+deactivate Database
+BookingService-->BookingController: Trả về kết quả
+deactivate BookingService
+
+BookingController->Trang danh sách chỗ đặt:Trả về kết quả
+deactivate BookingController
+Trang danh sách chỗ đặt-->Người dùng:Hiện thị danh sách chỗ đặt
+
+deactivate Trang danh sách chỗ đặt
+deactivate Người dùng

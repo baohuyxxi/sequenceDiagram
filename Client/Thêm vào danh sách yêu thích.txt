@@ -1,0 +1,25 @@
+title Thêm vào Danh sách Yêu thích
+actor Người dùng
+boundary Trang chi tiết chỗ ở
+control PublicsController
+participant PublicsService
+database Database
+
+activate Người dùng
+Người dùng->Trang chi tiết chỗ ở: Ấn nút "Thêm vào Yêu thích"
+activate Trang chi tiết chỗ ở
+Trang chi tiết chỗ ở->PublicsController: Gửi yêu cầu thêm vào Yêu thích
+activate PublicsController
+PublicsController->PublicsService: Xử lý yêu cầu thêm vào Yêu thích
+activate PublicsService
+PublicsService->Database: Lưu dữ liệu thêm vào Yêu thích vào Database
+activate Database
+Database-->PublicsService: Xác nhận đã thêm vào Yêu thích thành công
+deactivate Database
+PublicsService-->PublicsController: Trả về kết quả thêm vào Yêu thích
+deactivate PublicsService
+PublicsController-->Trang chi tiết chỗ ở: Hiển thị thông báo thành công
+deactivate PublicsController
+Trang chi tiết chỗ ở-->Người dùng: Hiển thị thông báo và cập nhật giao diện
+deactivate Trang chi tiết chỗ ở
+deactivate Người dùng
