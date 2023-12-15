@@ -1,0 +1,25 @@
+title Bỏ Yêu thích
+actor Người dùng
+boundary Trang danh sách yêu thích
+control PublicsController
+participant PublicsService
+database Database
+
+activate Người dùng
+Người dùng->Trang danh sách yêu thích: Chọn chỗ ở cần bỏ Yêu thích
+activate Trang danh sách yêu thích
+Trang danh sách yêu thích->PublicsController: Gửi yêu cầu bỏ Yêu thích
+activate PublicsController
+PublicsController->PublicsService: Xử lý yêu cầu bỏ Yêu thích
+activate PublicsService
+PublicsService->Database: Xóa dữ liệu Yêu thích khỏi Database
+activate Database
+Database-->PublicsService: Xác nhận đã bỏ Yêu thích thành công
+deactivate Database
+PublicsService-->PublicsController: Trả về kết quả bỏ Yêu thích
+deactivate PublicsService
+PublicsController-->Trang danh sách yêu thích: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate PublicsController
+Trang danh sách yêu thích-->Người dùng: Hiển thị thông báo và cập nhật giao diện
+deactivate Trang danh sách yêu thích
+deactivate Người dùng

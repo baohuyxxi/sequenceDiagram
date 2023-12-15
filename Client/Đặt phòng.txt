@@ -1,0 +1,53 @@
+title Đặt Phòng
+actor Người dùng
+boundary Trang chi tiết phòng
+boundary Trang xác nhận đặt phòng
+
+control BookingController
+participant BookingService
+database Database
+
+
+activate Người dùng
+Người dùng->Trang chi tiết phòng:Chọn ngày Check In, Check Out và số lượng người
+activate Trang chi tiết phòng
+Trang chi tiết phòng->BookingController: Gửi yêu cầu kiểm tra khả năng đặt phòng
+activate BookingController
+BookingController->BookingService: Xử lý yêu cầu kiểm tra khả năng đặt phòng
+activate BookingService
+BookingService->Database:Kiểm tra khả năng đặt phòng từ Database
+activate Database
+Database-->BookingService: Trả về kết quả kiểm tra
+deactivate Database
+BookingService-->BookingController: Trả về kết quả kiểm tra
+deactivate BookingService
+BookingController-->Trang chi tiết phòng: Hiển thị thông báo và cập nhật giao diện đặt phòng
+deactivate BookingController
+alt Chỗ ở không đáp ứng được điều kiện
+Trang chi tiết phòng-->Người dùng: Vô hiệu hóa nút đặt phòng
+deactivate Người dùng
+deactivate Trang chi tiết phòng
+end
+activate Người dùng
+activate Trang chi tiết phòng
+Người dùng->Trang chi tiết phòng: Nhấn nút "Đặt Phòng"
+Trang chi tiết phòng->Trang xác nhận đặt phòng: Chuyển đến trang đặt phòng
+activate Trang xác nhận đặt phòng
+deactivate Trang chi tiết phòng
+Người dùng->Trang xác nhận đặt phòng: Nhấn nút đặt phòng
+Trang xác nhận đặt phòng->BookingController:Gửi yêu cầu đặt phòng
+activate BookingController
+BookingController->BookingService: Gửi yêu cầu đặt phòng
+activate BookingService
+BookingService->Database: Lưu thông tin đặt phòng vào Database
+activate Database
+Database-->BookingService: Xác nhận đặt phòng thành công
+deactivate Database
+BookingService-->BookingController: Trả về kết quả đặt phòng
+deactivate BookingService
+BookingController-->Trang xác nhận đặt phòng: Chuyển đến trang xác nhận đặt phòng
+deactivate BookingController
+activate Người dùng
+Trang xác nhận đặt phòng-->Người dùng:Hiện thông báo đặt phòng thành công
+deactivate Trang xác nhận đặt phòng
+deactivate Người dùng
