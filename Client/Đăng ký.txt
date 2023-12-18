@@ -18,14 +18,16 @@ activate Trang chủ
 
 Người dùng->Trang chủ: Nhập email
 
-activate Trang chủ
 Trang chủ->Trang chủ:Kiểm tra định dạng email
-deactivate Trang chủ
 
 alt email sai định dạng
 Trang chủ -->Người dùng:Thông báo email không đúng định dạng
+deactivate Trang chủ
+deactivate Trang chủ
 deactivate Người dùng
 end
+activate Trang chủ
+activate Trang chủ
 activate Người dùng
 Trang chủ-> AuthController: Yêu cầu kiểm tra email
 activate AuthController
@@ -45,25 +47,31 @@ deactivate AuthController
 alt email đã tồn tại
 
 Trang chủ -->Người dùng:Hiện ô nhập mật khẩu, nút đăng nhập, nút quên mật khẩu
+deactivate Trang chủ
+deactivate Trang chủ
 deactivate Người dùng
 end
+activate Trang chủ
+activate Trang chủ
 activate Người dùng
 Trang chủ -->Người dùng:Hiện nút đăng ký
 
 Người dùng->Trang chủ:Ấn nút đăng ký
 
 
-Trang chủ->Trang chủ: Tắt Dialog đăng nhập
+Trang chủ->Trang chủ: Chuyển sang dialog Đăng ký
 deactivate Trang chủ
-
-Trang chủ->Trang chủ:Mở Dialog đăng ký
 activate Trang chủ
 Người dùng->Trang chủ:Nhập thông tin đăng ký
 Trang chủ->Trang chủ:Kiểm tra dữ liệu nhập vào
 alt Dữ liệu nhập vào không hợp lệ
 Trang chủ-->Người dùng:Họ, tên chưa đúng hoặc mật khẩu chưa đủ yêu cầu
+deactivate Trang chủ
+deactivate Trang chủ
 deactivate Người dùng
 end
+activate Trang chủ
+activate Trang chủ
 activate Người dùng
 Trang chủ->AuthController:Yêu cầu đăng ký
 activate AuthController
