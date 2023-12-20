@@ -12,16 +12,16 @@ activate Trang danh sách chỗ ở
 Trang danh sách chỗ ở->DialogFilter: Mở dialog bộ lọc
 activate DialogFilter
 Người dùng->DialogFilter:Chọn địa chỉ
-activate DialogFilter
+
 Người dùng->DialogFilter: Chọn giới hạn giá
 Người dùng->DialogFilter: Chọn các tiện ích mong muốn
 Người dùng->DialogFilter: Chọn số phòng mong muốn
 DialogFilter->DialogFilter:Xử lý các tiêu chí
-deactivate DialogFilter
+
 Người dùng->DialogFilter: Nhấn nút Ok
 DialogFilter->PublicsController:Gửi yêu cầu lọc
 activate PublicsController
-DialogFilter->Trang danh sách chỗ ở: Đóng dialog bộ lọc
+
 deactivate DialogFilter
 
 PublicsController->PublicsService: Gửi yêu cầu lọc

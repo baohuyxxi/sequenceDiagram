@@ -28,4 +28,4 @@ deactivate PublicsController
 
 Trang danh sách yêu thích->Người dùng:Hiển thị danh sách yêu thích
 deactivate Trang danh sách yêu thích
-
+deactivate Người dùng
