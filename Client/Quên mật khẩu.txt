@@ -1,59 +1,72 @@
 title Quên mật khẩu
-actor Actor
+actor Người dùng
 boundary Trang chủ
-boundary Form đăng nhập
-boundary Form quên mật khẩu
+boundary Trang chủ
+boundary Trang chủ
 control AuthController
 participant UserService
 database Database
 
 
 
-activate Actor 
+activate Người dùng 
 activate Trang chủ
-Actor->Trang chủ: Nhấn nút đăng nhập
-Trang chủ->Form đăng nhập: Hiển thị form
+Người dùng->Trang chủ: Nhấn nút đăng nhập
+Trang chủ->Trang chủ:Hiển thị hộp thoại đăng nhập
 
-activate Form đăng nhập
+activate Trang chủ
 
-Actor->Form đăng nhập: Nhập email
+Người dùng->Trang chủ: Nhập email
 
-activate Form đăng nhập
-Form đăng nhập->Form đăng nhập:Kiểm tra định dạng email
-deactivate Form đăng nhập
+Trang chủ->Trang chủ:Kiểm tra định dạng email
 
 alt email sai định dạng
-Form đăng nhập -->Actor:Thông báo email không đúng định dạng
+Trang chủ -->Người dùng:Thông báo email không đúng định dạng
+deactivate Người dùng
+deactivate Trang chủ
+deactivate Trang chủ
 end
+activate Người dùng
+activate Trang chủ
+activate Trang chủ
+
+Trang chủ-> AuthController: Yêu cầu kiểm tra email
 activate AuthController
-Form đăng nhập-> AuthController: Yêu cầu kiểm tra email
-activate Database
+
 AuthController->Database:Yêu cầu lấy dữ liệu
+activate Database
 Database-->AuthController:Trả về kết quả
 deactivate Database
-activate Form đăng nhập
 
-AuthController-->Form đăng nhập:Trả về kết quả
+
+AuthController-->Trang chủ:Trả về kết quả
 deactivate AuthController
 alt email chưa tồn tại
-Form đăng nhập -->Actor:Hiện nút đăng ký
+Trang chủ -->Người dùng:Hiện nút đăng ký
+deactivate Trang chủ
+deactivate Trang chủ
 end
-Form đăng nhập -->Actor: Hiện ô nhập mật khẩu, nút đăng nhập, nút quên mật khẩu
-deactivate Form đăng nhập
-Actor->Form đăng nhập:Nhấn nút quên mật khẩu
-deactivate Actor
+activate Trang chủ
+activate Trang chủ
+Trang chủ -->Người dùng: Hiện ô nhập mật khẩu, nút đăng nhập, nút quên mật khẩu
 
-Form đăng nhập->Form quên mật khẩu: Hiện form quên mật khẩu
-activate Form quên mật khẩu
-deactivate Form đăng nhập
-Actor->Form quên mật khẩu:Nhập mã capcha và nhấn nút quên mật khẩu
-Form quên mật khẩu->Form quên mật khẩu:Kiểm tra capcha
+Người dùng->Trang chủ:Nhấn nút quên mật khẩu
+
+Trang chủ->Trang chủ:Chuyển sang hộp thoại quên mật khẩu
+
+deactivate Trang chủ
+activate Trang chủ
+Người dùng->Trang chủ:Nhập mã capcha và nhấn nút quên mật khẩu
+Trang chủ->Trang chủ:Kiểm tra capcha
 alt Sai capcha 
-Form quên mật khẩu-->Actor:Capcha mới
+Trang chủ-->Người dùng:Capcha mới
+deactivate Người dùng
+
 end
-Form quên mật khẩu->AuthController:Yêu cầu đổi mật khẩu
+activate Người dùng
+Trang chủ->AuthController:Yêu cầu đổi mật khẩu
 activate AuthController
-deactivate Form quên mật khẩu
+deactivate Trang chủ
 
 AuthController->UserService:Yêu cầu xử lý đổi mật khẩu
 activate UserService
@@ -66,35 +79,9 @@ deactivate UserService
 
 AuthController-->Trang chủ:Trả về kết quả
 deactivate AuthController
-Trang chủ-->Actor:Thông báo đổi mật khẩu thành công
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Trang chủ-->Người dùng:Thông báo đổi mật khẩu thành công
+deactivate Trang chủ
+deactivate Người dùng
 
 
 

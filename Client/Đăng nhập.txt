@@ -22,8 +22,12 @@ Trang chủ->Trang chủ:Kiểm tra định dạng email
 
 alt email sai định dạng
 Trang chủ -->Người dùng:Thông báo email không đúng định dạng
+deactivate Trang chủ
+deactivate Trang chủ
 deactivate Người dùng
 end
+activate Trang chủ
+activate Trang chủ
 activate Người dùng
 
 
@@ -46,8 +50,13 @@ deactivate AuthController
 alt email chưa tồn tại
 
 Trang chủ-->Người dùng: Hiện nút đăng ký
+deactivate Trang chủ
+deactivate Trang chủ
 deactivate Người dùng
+
 end
+activate Trang chủ
+activate Trang chủ
 activate Người dùng
 Trang chủ -->Người dùng: Hiện ô nhập mật khẩu
 
@@ -65,8 +74,9 @@ activate AuthService
 AuthService->Database:Yêu cầu dữ liệu
 activate Database
 Database-->AuthService:Trả về dữ liệu
-AuthService->AuthService:Xác thực dữ liệu
 deactivate Database
+AuthService->AuthService:Xác thực dữ liệu
+
 alt Thông tin không hợp lệ
 AuthService-->AuthController:Trả về kết quả
 
@@ -76,10 +86,11 @@ AuthController -->Trang chủ: Trả về kết quả
 
 
 Trang chủ-->Người dùng: Thông báo lỗi
+deactivate Trang chủ
 deactivate Người dùng
 deactivate Trang chủ
 end
-
+activate Trang chủ
 activate Trang chủ
 activate Người dùng
 
