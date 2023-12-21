@@ -1,0 +1,76 @@
+title Chỉnh sửa tiện ích chỗ ở
+actor Người cho thuê
+boundary Trang danh sách chỗ ở
+boundary Trang chi tiết chỗ ở
+
+
+control AccomodationController
+participant AccomodationService
+database Database
+
+activate Người cho thuê
+activate Trang danh sách chỗ ở
+Người cho thuê->Trang danh sách chỗ ở: Chọn chỗ ở muốn chỉnh sửa
+activate Trang chi tiết chỗ ở
+Trang danh sách chỗ ở->Trang chi tiết chỗ ở: Chuyển trang
+deactivate Trang danh sách chỗ ở
+activate AccomodationController
+Trang chi tiết chỗ ở->AccomodationController: Yêu cầu lấy dữ liệu
+activate AccomodationService
+AccomodationController->AccomodationService: Yêu cầu lấy dữ liệu
+activate Database
+AccomodationService->Database: Lấy dữ liệu
+Database-->AccomodationService: Trả về kết quả
+deactivate Database
+AccomodationService-->AccomodationController: Trả về kết quả
+deactivate AccomodationService
+AccomodationController-->Trang chi tiết chỗ ở: Trả về kết quả
+deactivate AccomodationController
+Trang chi tiết chỗ ở-->Người cho thuê: Hiển thị thông tin chi tiết chỗ ở
+deactivate Trang chi tiết chỗ ở
+deactivate Người cho thuê
+
+
+space 
+activate Người cho thuê
+activate Trang chi tiết chỗ ở
+Người cho thuê->Trang chi tiết chỗ ở: Cập nhật danh sách tiện ích
+Người cho thuê->Trang chi tiết chỗ ở: Bâm lưu
+deactivate Người cho thuê
+
+space 
+alt Chọn hủy
+activate Người cho thuê
+Trang chi tiết chỗ ở-->Người cho thuê: Hiển thị lại dữ liệu gốc
+end
+deactivate Người cho thuê
+
+
+
+activate AccomodationController
+Trang chi tiết chỗ ở->AccomodationController: Gửi dữ liệu
+activate AccomodationController
+AccomodationController->AccomodationController: Kiểm tra
+deactivate AccomodationController
+
+alt Cập nhật thất bại
+AccomodationController-->Trang chi tiết chỗ ở: Thông báo lỗi
+activate Người cho thuê
+Trang chi tiết chỗ ở-->Người cho thuê: Hiển thị thông báo lỗi
+deactivate Người cho thuê
+end
+
+activate AccomodationService
+AccomodationController->AccomodationService: Yêu cầu cập nhật
+activate Database
+AccomodationService->Database: Câp nhật thông tin
+Database-->AccomodationService: Trả về dữ liệu
+deactivate Database
+AccomodationService-->AccomodationController: Trả về dữ liệu
+deactivate AccomodationService
+AccomodationController-->Trang chi tiết chỗ ở: Thông báo cập nhật thành công
+activate Người cho thuê
+Trang chi tiết chỗ ở-->Người cho thuê: Hiển thị thông báo cập nhật thành công
+deactivate Trang chi tiết chỗ ở
+deactivate Người cho thuê
+

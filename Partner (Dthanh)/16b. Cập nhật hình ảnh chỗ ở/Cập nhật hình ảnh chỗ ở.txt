@@ -1,0 +1,72 @@
+title Cập nhật hình ảnh chỗ ở
+actor Người cho thuê
+boundary Trang chi tiết chỗ ở
+boundary Form upload
+
+control AccomodationController
+participant AccomodationService
+database Database
+
+activate Người cho thuê
+activate Trang chi tiết chỗ ở
+Người cho thuê->Trang chi tiết chỗ ở: Chọn chỉnh sửa
+Trang chi tiết chỗ ở->Form upload: Chuyển tiếp
+activate Form upload
+Form upload-->Người cho thuê: Hiện danh sách hình ảnh xem trước
+deactivate Form upload
+deactivate Trang chi tiết chỗ ở
+deactivate Người cho thuê
+
+space 
+activate Người cho thuê
+activate Form upload
+Người cho thuê->Form upload: Chọn hình ảnh muốn upload
+Người cho thuê->Form upload: Chọn lưu
+
+alt Chọn hủy
+Form upload-->Trang chi tiết chỗ ở: Chuyển tiếp
+Trang chi tiết chỗ ở-->Người cho thuê: Hiển thị dữ liệu ban đầu
+end
+
+space
+activate Form upload
+Form upload->Form upload: Kiểm tra định dạng
+deactivate Form upload
+
+activate AccomodationController
+Form upload->AccomodationController: Gửi thông tin
+activate AccomodationController
+AccomodationController->AccomodationController: Kiểm tra định dạng
+deactivate AccomodationController
+AccomodationController->AccomodationService: Chuyển thông tin
+activate AccomodationService
+activate AccomodationService
+AccomodationService->AccomodationService: Upload file
+deactivate AccomodationService
+
+alt Upload thất bại
+AccomodationService-->AccomodationController: Trả về lỗi
+activate Trang chi tiết chỗ ở
+AccomodationController-->Trang chi tiết chỗ ở: Thông báo lỗi
+Trang chi tiết chỗ ở-->Người cho thuê: Thông báo lỗi
+deactivate Trang chi tiết chỗ ở
+end
+
+activate Database
+AccomodationService->Database: Lưu thông tin 
+deactivate Form upload
+Database-->AccomodationService: Trả về kết quả
+deactivate Database
+AccomodationService-->AccomodationController: Trả về kết quả
+deactivate AccomodationService
+activate Trang chi tiết chỗ ở
+AccomodationController-->Trang chi tiết chỗ ở: Chuyển trang
+deactivate AccomodationController
+Trang chi tiết chỗ ở-->Người cho thuê: Thông báo thành công
+deactivate Trang chi tiết chỗ ở
+deactivate Người cho thuê
+
+
+
+
+

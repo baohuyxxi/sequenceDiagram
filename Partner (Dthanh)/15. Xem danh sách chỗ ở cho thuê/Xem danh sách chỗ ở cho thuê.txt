@@ -1,0 +1,30 @@
+title Xem danh sách chỗ ở cho thuê
+actor Người cho thuê
+boundary Trang chủ host
+boundary Trang danh sách chỗ ở
+
+control AccomodationController
+participant AccomodationService
+database Database
+
+activate Người cho thuê
+activate Trang chủ host
+Người cho thuê->Trang chủ host: Chọn tab danh sách nhà cho thuê
+activate Trang danh sách chỗ ở
+Trang chủ host->Trang danh sách chỗ ở: Chuyển trang
+deactivate Trang chủ host
+Trang danh sách chỗ ở->AccomodationController: Yêu cầu lấy dữ liệu
+activate AccomodationController
+AccomodationController->AccomodationService: Yêu cầu lấy dữ liệu
+activate AccomodationService
+activate Database
+AccomodationService->Database: Lấy dữ liệu
+Database-->AccomodationService: Trả về kết quả
+deactivate Database
+AccomodationService-->AccomodationController: Trả về kết quả
+deactivate AccomodationService
+AccomodationController-->Trang danh sách chỗ ở: Trả về kết quả
+deactivate AccomodationController
+Trang danh sách chỗ ở-->Người cho thuê: Hiển thị danh sách chỗ ở
+deactivate Người cho thuê
+deactivate Trang danh sách chỗ ở
