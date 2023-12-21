@@ -1,0 +1,64 @@
+title Mở khóa tài khoản người dùng
+actor Admin
+boundary Trang chủ admin
+boundary Trang quản lý người dùng
+
+control CmsUserController
+participant UserService
+database Database
+
+activate Admin
+activate Trang chủ admin
+Admin->Trang chủ admin: Chọn tab "Quản lý người dùng"
+activate Trang quản lý người dùng
+Trang chủ admin->Trang quản lý người dùng: Chuyển tiếp
+deactivate Trang chủ admin
+activate CmsUserController
+Trang quản lý người dùng->CmsUserController: Lấy danh sách người dùng
+activate UserService
+CmsUserController->UserService: Lấy dữ liệu
+activate Database
+UserService->Database: Lấy dữ liệu
+Database-->UserService: Trả về dữ liệu
+deactivate Database
+UserService-->CmsUserController: Trả về dữ liệu
+deactivate UserService
+CmsUserController-->Trang quản lý người dùng: Trả về dữ liệu
+deactivate CmsUserController
+Trang quản lý người dùng-->Admin: Hiển thị danh sách người dùng
+deactivate Admin
+deactivate Trang quản lý người dùng
+
+
+space 
+activate Admin
+activate Trang quản lý người dùng
+Admin->Trang quản lý người dùng: Chọn mở khóa người dùng trong lưới danh sách
+activate CmsUserController
+Trang quản lý người dùng->CmsUserController: Yêu cầu mở khóa tài khoản người dùng
+activate CmsUserController
+CmsUserController->CmsUserController: Kiểm tra
+deactivate CmsUserController
+
+
+alt Người dùng không tồn tại
+CmsUserController-->Trang quản lý người dùng: Thông báo lỗi
+Trang quản lý người dùng-->Admin: Hiển thị thông báo lỗi
+end
+
+activate UserService
+CmsUserController->UserService: Thay đổi trạng thái người dùng thành "ENABLE"
+
+activate Database
+UserService->Database: Cập nhật dữ liệu
+Database-->UserService: Trả về dữ liệu
+deactivate Database
+UserService-->CmsUserController: Trả về dữ liệu
+deactivate UserService
+CmsUserController-->Trang quản lý người dùng: Trả về dữ liệu
+deactivate CmsUserController
+Trang quản lý người dùng-->Admin: Thông báo thành công\n Hiển thị lại danh sách
+deactivate Trang quản lý người dùng
+deactivate Admin
+
+

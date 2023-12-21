@@ -1,0 +1,84 @@
+title Check out đặt phòng
+actor Người cho thuê
+boundary Trang chủ
+boundary Trang chủ host
+
+control BookingController
+participant BookingService
+database Database
+
+activate Người cho thuê
+activate Trang chủ
+Người cho thuê->Trang chủ: Chọn chức năng quản lý nhà cho thuê
+activate Trang chủ host
+Trang chủ->Trang chủ host: Chuyển trang
+activate BookingController
+deactivate Trang chủ
+Trang chủ host->BookingController: Lấy danh sách đặt phòng
+activate BookingService
+BookingController->BookingService: Lấy dữ liệu
+activate Database
+BookingService->Database: Lấy dữ liệu
+Database-->BookingService: Trả về dữ liệu
+deactivate Database
+BookingService-->BookingController: Trả về dữ liệu
+deactivate BookingService
+BookingController-->Trang chủ host: Trả về dữ liệu
+deactivate BookingController
+Trang chủ host-->Người cho thuê: Hiển thị danh sách đặt phòng 
+deactivate Người cho thuê
+deactivate Trang chủ host
+
+space
+activate Người cho thuê
+activate Trang chủ host
+Người cho thuê->Trang chủ host: Chọn tab "Hiện đang đón tiếp"
+Trang chủ host-->Người cho thuê: Hiển thị danh sách đơn phòng ở trạng thái đang đón tiếp
+deactivate Người cho thuê
+deactivate Trang chủ host
+
+space 
+activate Người cho thuê
+activate Trang chủ host
+Người cho thuê->Trang chủ host: Bấm chọn nút "Check out" ở item đặt phòng trong lưới danh sách
+activate BookingController
+Trang chủ host->BookingController: Gửi dữ liệu đơn đặt phòng
+deactivate Người cho thuê
+activate BookingService
+BookingController->BookingService: Đổi trạng thái thành "Check out"
+deactivate Trang chủ host
+activate Database
+BookingService->Database: Cập nhật trạng thái
+deactivate BookingController
+deactivate BookingService
+
+
+space 
+alt Cập nhật trạng thái thất bại
+activate BookingService
+BookingService-->BookingController: Thông báo lỗi
+deactivate BookingService
+activate BookingController
+BookingController-->Trang chủ host: Thông báo lỗi
+deactivate BookingController
+activate Trang chủ host
+activate Người cho thuê
+Trang chủ host-->Người cho thuê: Hiển thị thông báo lỗi
+deactivate Trang chủ host
+deactivate Người cho thuê
+end
+
+Database-->BookingService: Trả về dữ liệu
+deactivate Database
+activate BookingService
+activate BookingController
+BookingService-->BookingController: Trả về dữ liệu
+deactivate BookingService
+activate Trang chủ host
+BookingController-->Trang chủ host: Trả về dữ liệu
+deactivate BookingController
+activate Người cho thuê
+Trang chủ host-->Người cho thuê: Thông báo thành công\n Cập nhật lại danh sách
+deactivate Trang chủ host
+deactivate Người cho thuê
+

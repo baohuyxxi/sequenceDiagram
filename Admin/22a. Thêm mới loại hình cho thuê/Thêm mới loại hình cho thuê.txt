@@ -1,0 +1,75 @@
+title Thêm mới loại hình cho thuê
+actor Admin
+boundary Trang quản lý loại hình cho thuê
+boundary Trang tạo mới
+
+control CmsAccomCategoryController
+participant AccomCategoryService
+database Database
+
+activate Admin
+activate Trang quản lý loại hình cho thuê
+Admin->Trang quản lý loại hình cho thuê: Nhấn thêm mới
+activate Trang tạo mới
+Trang quản lý loại hình cho thuê->Trang tạo mới: Chuyển trang
+deactivate Trang quản lý loại hình cho thuê
+Trang tạo mới-->Admin: Hiển thị trang
+deactivate Trang tạo mới
+deactivate Admin
+
+space 
+activate Admin
+activate Trang tạo mới
+Admin->Trang tạo mới: Điền thông tin vào form
+Admin->Trang tạo mới: Chọn thêm mới
+deactivate Admin
+
+activate Trang tạo mới
+Trang tạo mới->Trang tạo mới: Kiểm tra
+deactivate Trang tạo mới
+
+alt Thông tin không hợp lệ
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Trang tạo mới
+end
+
+activate Trang tạo mới
+activate CmsAccomCategoryController
+Trang tạo mới->CmsAccomCategoryController: Gửi dữ liệu
+activate CmsAccomCategoryController
+CmsAccomCategoryController->CmsAccomCategoryController: Kiểm tra
+deactivate CmsAccomCategoryController
+
+alt Thông tin không hợp lệ
+CmsAccomCategoryController-->Trang tạo mới: Trả lỗi
+deactivate CmsAccomCategoryController
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+end
+
+activate CmsAccomCategoryController
+activate AccomCategoryService
+CmsAccomCategoryController->AccomCategoryService: Yêu cầu thêm mới
+activate Database
+AccomCategoryService->Database: Tạo đối tượng
+Database-->AccomCategoryService: Trả về kết quả
+deactivate Database
+AccomCategoryService-->CmsAccomCategoryController: Trả về kết quả
+deactivate AccomCategoryService
+activate Trang tạo mới
+CmsAccomCategoryController-->Trang tạo mới: Trả về kết qủa
+deactivate CmsAccomCategoryController
+
+alt Thêm mới thất bại
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+deactivate Admin
+end
+activate Trang tạo mới
+activate Admin
+Trang tạo mới-->Admin: Thông báo thành công
+deactivate Trang tạo mới
+deactivate Admin

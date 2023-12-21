@@ -1,0 +1,57 @@
+title Xóa loại giường
+actor Admin
+boundary Trang quản lý loại giường
+
+control CmsTypeBedController
+participant TypeBedService
+database Database
+
+activate Admin
+activate Trang quản lý loại giường
+Admin->Trang quản lý loại giường: Chọn icon xóa ở item muốn \nxóa trong lưới danh sách
+activate Trang quản lý loại giường
+deactivate Admin
+Trang quản lý loại giường->Trang quản lý loại giường: Hiển thị xác nhận
+deactivate Trang quản lý loại giường
+
+space 
+alt Chọn hủy
+activate Admin
+Trang quản lý loại giường-->Admin: Hiển thị giao diện
+deactivate Trang quản lý loại giường
+deactivate Admin
+end
+
+space 
+activate Admin
+activate Trang quản lý loại giường
+Admin->Trang quản lý loại giường: Xác nhận xóa
+activate CmsTypeBedController
+Trang quản lý loại giường->CmsTypeBedController: Gửi yêu cầu
+deactivate Admin
+activate TypeBedService
+CmsTypeBedController->TypeBedService: Yêu cầu cập nhật
+activate Database
+TypeBedService->Database: Cập nhật đối tượng
+Database-->TypeBedService: Trả về kết quả
+deactivate Database
+TypeBedService-->CmsTypeBedController: Trả về kết quả
+deactivate TypeBedService
+CmsTypeBedController-->Trang quản lý loại giường: Trả về kết quả
+deactivate CmsTypeBedController
+
+alt Xóa thất bại
+activate Admin
+Trang quản lý loại giường-->Admin: Hiển thị thông báo lỗi
+deactivate Trang quản lý loại giường
+deactivate Admin
+end
+
+activate Trang quản lý loại giường
+activate Trang quản lý loại giường
+Trang quản lý loại giường->Trang quản lý loại giường: Load lại dữ liệu
+activate Admin
+deactivate Trang quản lý loại giường
+Trang quản lý loại giường-->Admin: Hiển thị thông báo thành công
+deactivate Admin
+deactivate Trang quản lý loại giường

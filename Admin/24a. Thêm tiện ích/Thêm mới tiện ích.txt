@@ -1,0 +1,75 @@
+title Thêm mới tiện ích
+actor Admin
+boundary Trang quản lý tiện ích
+boundary Trang tạo mới
+
+control CmsFacilityController
+participant FacilityService
+database Database
+
+activate Admin
+activate Trang quản lý tiện ích
+Admin->Trang quản lý tiện ích: Nhấn thêm mới
+activate Trang tạo mới
+Trang quản lý tiện ích->Trang tạo mới: Chuyển trang
+deactivate Trang quản lý tiện ích
+Trang tạo mới-->Admin: Hiển thị trang
+deactivate Trang tạo mới
+deactivate Admin
+
+space 
+activate Admin
+activate Trang tạo mới
+Admin->Trang tạo mới: Điền thông tin vào form
+Admin->Trang tạo mới: Chọn thêm mới
+deactivate Admin
+
+activate Trang tạo mới
+Trang tạo mới->Trang tạo mới: Kiểm tra
+deactivate Trang tạo mới
+
+alt Thông tin không hợp lệ
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Trang tạo mới
+end
+
+activate Trang tạo mới
+activate CmsFacilityController
+Trang tạo mới->CmsFacilityController: Gửi dữ liệu
+activate CmsFacilityController
+CmsFacilityController->CmsFacilityController: Kiểm tra
+deactivate CmsFacilityController
+
+alt Thông tin không hợp lệ
+CmsFacilityController-->Trang tạo mới: Trả lỗi
+deactivate CmsFacilityController
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+end
+
+activate CmsFacilityController
+activate FacilityService
+CmsFacilityController->FacilityService: Yêu cầu thêm mới
+activate Database
+FacilityService->Database: Tạo đối tượng
+Database-->FacilityService: Trả về kết quả
+deactivate Database
+FacilityService-->CmsFacilityController: Trả về kết quả
+deactivate FacilityService
+activate Trang tạo mới
+CmsFacilityController-->Trang tạo mới: Trả về kết qủa
+deactivate CmsFacilityController
+
+alt Thêm mới thất bại
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+deactivate Admin
+end
+activate Trang tạo mới
+activate Admin
+Trang tạo mới-->Admin: Thông báo thành công
+deactivate Trang tạo mới
+deactivate Admin

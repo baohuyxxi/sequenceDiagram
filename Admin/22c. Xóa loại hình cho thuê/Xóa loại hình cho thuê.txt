@@ -1,0 +1,57 @@
+title Xóa loại hình cho thuê
+actor Admin
+boundary Trang quản lý loại hình cho thuê
+
+control CmsAccomCategoryController
+participant AccomCategoryService
+database Database
+
+activate Admin
+activate Trang quản lý loại hình cho thuê
+Admin->Trang quản lý loại hình cho thuê: Chọn icon xóa ở item muốn \nxóa trong lưới danh sách
+activate Trang quản lý loại hình cho thuê
+deactivate Admin
+Trang quản lý loại hình cho thuê->Trang quản lý loại hình cho thuê: Hiển thị xác nhận
+deactivate Trang quản lý loại hình cho thuê
+
+space 
+alt Chọn hủy
+activate Admin
+Trang quản lý loại hình cho thuê-->Admin: Hiển thị giao diện
+deactivate Trang quản lý loại hình cho thuê
+deactivate Admin
+end
+
+space 
+activate Admin
+activate Trang quản lý loại hình cho thuê
+Admin->Trang quản lý loại hình cho thuê: Xác nhận xóa
+activate CmsAccomCategoryController
+Trang quản lý loại hình cho thuê->CmsAccomCategoryController: Gửi yêu cầu
+deactivate Admin
+activate AccomCategoryService
+CmsAccomCategoryController->AccomCategoryService: Yêu cầu cập nhật
+activate Database
+AccomCategoryService->Database: Cập nhật đối tượng
+Database-->AccomCategoryService: Trả về kết quả
+deactivate Database
+AccomCategoryService-->CmsAccomCategoryController: Trả về kết quả
+deactivate AccomCategoryService
+CmsAccomCategoryController-->Trang quản lý loại hình cho thuê: Trả về kết quả
+deactivate CmsAccomCategoryController
+
+alt Xóa thất bại
+activate Admin
+Trang quản lý loại hình cho thuê-->Admin: Hiển thị thông báo lỗi
+deactivate Trang quản lý loại hình cho thuê
+deactivate Admin
+end
+
+activate Trang quản lý loại hình cho thuê
+activate Trang quản lý loại hình cho thuê
+Trang quản lý loại hình cho thuê->Trang quản lý loại hình cho thuê: Load lại dữ liệu
+activate Admin
+deactivate Trang quản lý loại hình cho thuê
+Trang quản lý loại hình cho thuê-->Admin: Hiển thị thông báo thành công
+deactivate Admin
+deactivate Trang quản lý loại hình cho thuê

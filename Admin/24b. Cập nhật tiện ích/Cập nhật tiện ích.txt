@@ -1,0 +1,76 @@
+title Cập nhật tiện ích
+actor Admin
+boundary Trang quản lý tiện ích
+boundary Form cập nhật
+
+control CmsFacilityController
+participant FacilityService
+database Database
+
+activate Admin
+activate Trang quản lý tiện ích
+Admin->Trang quản lý tiện ích: Chọn biểu tượng cập nhật trong lưới danh sách
+activate Form cập nhật
+Trang quản lý tiện ích->Form cập nhật: Yêu cầu hiện
+deactivate Trang quản lý tiện ích
+Form cập nhật-->Admin: Hiển thị form
+deactivate Form cập nhật
+deactivate Admin
+
+space 
+activate Admin
+activate Form cập nhật
+Admin->Form cập nhật: Cập nhật thông tin 
+Admin->Form cập nhật: Chọn Update
+deactivate Admin
+
+activate Form cập nhật
+Form cập nhật->Form cập nhật: Kiểm tra
+deactivate Form cập nhật
+
+alt Thông tin không hợp lệ
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Form cập nhật
+end
+
+activate Form cập nhật
+activate CmsFacilityController
+Form cập nhật->CmsFacilityController: Gửi dữ liệu
+activate CmsFacilityController
+CmsFacilityController->CmsFacilityController: Kiểm tra
+deactivate CmsFacilityController
+
+alt Thông tin không hợp lệ
+CmsFacilityController-->Form cập nhật: Trả lỗi
+deactivate CmsFacilityController
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+end
+
+activate CmsFacilityController
+activate FacilityService
+CmsFacilityController->FacilityService: Yêu cầu cập nhật
+activate Database
+FacilityService->Database: Cập nhật đối tượng
+Database-->FacilityService: Trả về kết quả
+deactivate Database
+FacilityService-->CmsFacilityController: Trả về kết quả
+deactivate FacilityService
+activate Form cập nhật
+CmsFacilityController-->Form cập nhật: Trả về kết qủa
+deactivate CmsFacilityController
+
+alt Thêm mới thất bại
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+deactivate Admin
+end
+activate Form cập nhật
+activate Admin
+Form cập nhật-->Trang quản lý tiện ích: Chuyển trang
+Trang quản lý tiện ích-->Admin: Thông báo thành công
+deactivate Form cập nhật
+deactivate Admin

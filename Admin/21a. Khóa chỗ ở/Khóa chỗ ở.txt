@@ -1,0 +1,64 @@
+title Khóa chỗ ở 
+actor Admin
+boundary Trang chủ admin
+boundary Trang quản lý nơi cho thuê
+
+control CmsAccomPlaceController
+participant AccomPlaceService
+database Database
+
+activate Admin
+activate Trang chủ admin
+Admin->Trang chủ admin: Chọn tab "Quản lý nơi cho thuê"
+activate Trang quản lý nơi cho thuê
+Trang chủ admin->Trang quản lý nơi cho thuê: Chuyển tiếp
+deactivate Trang chủ admin
+activate CmsAccomPlaceController
+Trang quản lý nơi cho thuê->CmsAccomPlaceController: Lấy danh sách chỗ ở
+activate AccomPlaceService
+CmsAccomPlaceController->AccomPlaceService: Lấy dữ liệu
+activate Database
+AccomPlaceService->Database: Lấy dữ liệu
+Database-->AccomPlaceService: Trả về dữ liệu
+deactivate Database
+AccomPlaceService-->CmsAccomPlaceController: Trả về dữ liệu
+deactivate AccomPlaceService
+CmsAccomPlaceController-->Trang quản lý nơi cho thuê: Trả về dữ liệu
+deactivate CmsAccomPlaceController
+Trang quản lý nơi cho thuê-->Admin: Hiển thị danh sách chỗ ở
+deactivate Admin
+deactivate Trang quản lý nơi cho thuê
+
+
+space 
+activate Admin
+activate Trang quản lý nơi cho thuê
+Admin->Trang quản lý nơi cho thuê: Chọn khóa chỗ ở trong lưới danh sách
+activate CmsAccomPlaceController
+Trang quản lý nơi cho thuê->CmsAccomPlaceController: Yêu cầu khóa chỗ ở
+activate CmsAccomPlaceController
+CmsAccomPlaceController->CmsAccomPlaceController: Kiểm tra
+deactivate CmsAccomPlaceController
+
+
+alt Chỗ ở không tồn tại
+CmsAccomPlaceController-->Trang quản lý nơi cho thuê: Thông báo lỗi
+Trang quản lý nơi cho thuê-->Admin: Hiển thị thông báo lỗi
+end
+
+activate AccomPlaceService
+CmsAccomPlaceController->AccomPlaceService: Thay đổi trạng thái chỗ ở thành "DISABLE"
+
+activate Database
+AccomPlaceService->Database: Cập nhật dữ liệu
+Database-->AccomPlaceService: Trả về dữ liệu
+deactivate Database
+AccomPlaceService-->CmsAccomPlaceController: Trả về dữ liệu
+deactivate AccomPlaceService
+CmsAccomPlaceController-->Trang quản lý nơi cho thuê: Trả về dữ liệu
+deactivate CmsAccomPlaceController
+Trang quản lý nơi cho thuê-->Admin: Thông báo thành công\n Hiển thị lại danh sách
+deactivate Trang quản lý nơi cho thuê
+deactivate Admin
+
+

@@ -1,0 +1,75 @@
+title Thêm mới danh mục phụ phí
+actor Admin
+boundary Trang quản lý danh mục phụ phí
+boundary Trang tạo mới
+
+control CmsSurchargeCatefgoryController
+participant SurchargeService
+database Database
+
+activate Admin
+activate Trang quản lý danh mục phụ phí
+Admin->Trang quản lý danh mục phụ phí: Nhấn thêm mới
+activate Trang tạo mới
+Trang quản lý danh mục phụ phí->Trang tạo mới: Chuyển trang
+deactivate Trang quản lý danh mục phụ phí
+Trang tạo mới-->Admin: Hiển thị trang
+deactivate Trang tạo mới
+deactivate Admin
+
+space 
+activate Admin
+activate Trang tạo mới
+Admin->Trang tạo mới: Điền thông tin vào form
+Admin->Trang tạo mới: Chọn thêm mới
+deactivate Admin
+
+activate Trang tạo mới
+Trang tạo mới->Trang tạo mới: Kiểm tra
+deactivate Trang tạo mới
+
+alt Thông tin không hợp lệ
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Trang tạo mới
+end
+
+activate Trang tạo mới
+activate CmsSurchargeCatefgoryController
+Trang tạo mới->CmsSurchargeCatefgoryController: Gửi dữ liệu
+activate CmsSurchargeCatefgoryController
+CmsSurchargeCatefgoryController->CmsSurchargeCatefgoryController: Kiểm tra
+deactivate CmsSurchargeCatefgoryController
+
+alt Thông tin không hợp lệ
+CmsSurchargeCatefgoryController-->Trang tạo mới: Trả lỗi
+deactivate CmsSurchargeCatefgoryController
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+end
+
+activate CmsSurchargeCatefgoryController
+activate SurchargeService
+CmsSurchargeCatefgoryController->SurchargeService: Yêu cầu thêm mới
+activate Database
+SurchargeService->Database: Tạo đối tượng
+Database-->SurchargeService: Trả về kết quả
+deactivate Database
+SurchargeService-->CmsSurchargeCatefgoryController: Trả về kết quả
+deactivate SurchargeService
+activate Trang tạo mới
+CmsSurchargeCatefgoryController-->Trang tạo mới: Trả về kết qủa
+deactivate CmsSurchargeCatefgoryController
+
+alt Thêm mới thất bại
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+deactivate Admin
+end
+activate Trang tạo mới
+activate Admin
+Trang tạo mới-->Admin: Thông báo thành công
+deactivate Trang tạo mới
+deactivate Admin

@@ -1,0 +1,75 @@
+title Thêm mới loại giường
+actor Admin
+boundary Trang quản lý loại giường
+boundary Trang tạo mới
+
+control CmsTypeBedController
+participant TypeBedService
+database Database
+
+activate Admin
+activate Trang quản lý loại giường
+Admin->Trang quản lý loại giường: Nhấn thêm mới
+activate Trang tạo mới
+Trang quản lý loại giường->Trang tạo mới: Chuyển trang
+deactivate Trang quản lý loại giường
+Trang tạo mới-->Admin: Hiển thị trang
+deactivate Trang tạo mới
+deactivate Admin
+
+space 
+activate Admin
+activate Trang tạo mới
+Admin->Trang tạo mới: Điền thông tin vào form
+Admin->Trang tạo mới: Chọn thêm mới
+deactivate Admin
+
+activate Trang tạo mới
+Trang tạo mới->Trang tạo mới: Kiểm tra
+deactivate Trang tạo mới
+
+alt Thông tin không hợp lệ
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Trang tạo mới
+end
+
+activate Trang tạo mới
+activate CmsTypeBedController
+Trang tạo mới->CmsTypeBedController: Gửi dữ liệu
+activate CmsTypeBedController
+CmsTypeBedController->CmsTypeBedController: Kiểm tra
+deactivate CmsTypeBedController
+
+alt Thông tin không hợp lệ
+CmsTypeBedController-->Trang tạo mới: Trả lỗi
+deactivate CmsTypeBedController
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+end
+
+activate CmsTypeBedController
+activate TypeBedService
+CmsTypeBedController->TypeBedService: Yêu cầu thêm mới
+activate Database
+TypeBedService->Database: Tạo đối tượng
+Database-->TypeBedService: Trả về kết quả
+deactivate Database
+TypeBedService-->CmsTypeBedController: Trả về kết quả
+deactivate TypeBedService
+activate Trang tạo mới
+CmsTypeBedController-->Trang tạo mới: Trả về kết qủa
+deactivate CmsTypeBedController
+
+alt Thêm mới thất bại
+activate Admin
+Trang tạo mới-->Admin: Thông báo lỗi
+deactivate Trang tạo mới
+deactivate Admin
+end
+activate Trang tạo mới
+activate Admin
+Trang tạo mới-->Admin: Thông báo thành công
+deactivate Trang tạo mới
+deactivate Admin

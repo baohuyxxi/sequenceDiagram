@@ -1,0 +1,56 @@
+title Xóa loại danh mục phụ phí
+actor Admin
+boundary Trang quản lý danh mục phụ phí
+control CmsSurchargeCatefgoryController
+participant SurchargeService
+database Database
+
+activate Admin
+activate Trang quản lý danh mục phụ phí
+Admin->Trang quản lý danh mục phụ phí: Chọn icon xóa ở item muốn \nxóa trong lưới danh sách
+activate Trang quản lý danh mục phụ phí
+deactivate Admin
+Trang quản lý danh mục phụ phí->Trang quản lý danh mục phụ phí: Hiển thị xác nhận
+deactivate Trang quản lý danh mục phụ phí
+
+space 
+alt Chọn hủy
+activate Admin
+Trang quản lý danh mục phụ phí-->Admin: Hiển thị giao diện
+deactivate Trang quản lý danh mục phụ phí
+deactivate Admin
+end
+
+space 
+activate Admin
+activate Trang quản lý danh mục phụ phí
+Admin->Trang quản lý danh mục phụ phí: Xác nhận xóa
+activate CmsSurchargeCatefgoryController
+Trang quản lý danh mục phụ phí->CmsSurchargeCatefgoryController: Gửi yêu cầu
+deactivate Admin
+activate SurchargeService
+CmsSurchargeCatefgoryController->SurchargeService: Yêu cầu cập nhật
+activate Database
+SurchargeService->Database: Cập nhật đối tượng
+Database-->SurchargeService: Trả về kết quả
+deactivate Database
+SurchargeService-->CmsSurchargeCatefgoryController: Trả về kết quả
+deactivate SurchargeService
+CmsSurchargeCatefgoryController-->Trang quản lý danh mục phụ phí: Trả về kết quả
+deactivate CmsSurchargeCatefgoryController
+
+alt Xóa thất bại
+activate Admin
+Trang quản lý danh mục phụ phí-->Admin: Hiển thị thông báo lỗi
+deactivate Trang quản lý danh mục phụ phí
+deactivate Admin
+end
+
+activate Trang quản lý danh mục phụ phí
+activate Trang quản lý danh mục phụ phí
+Trang quản lý danh mục phụ phí->Trang quản lý danh mục phụ phí: Load lại dữ liệu
+activate Admin
+deactivate Trang quản lý danh mục phụ phí
+Trang quản lý danh mục phụ phí-->Admin: Hiển thị thông báo thành công
+deactivate Admin
+deactivate Trang quản lý danh mục phụ phí

@@ -1,0 +1,76 @@
+title Cập nhật loại giường
+actor Admin
+boundary Trang quản lý loại giường
+boundary Form cập nhật
+
+control CmsTypeBedController
+participant TypeBedService
+database Database
+
+activate Admin
+activate Trang quản lý loại giường
+Admin->Trang quản lý loại giường: Chọn biểu tượng cập nhật trong lưới danh sách
+activate Form cập nhật
+Trang quản lý loại giường->Form cập nhật: Yêu cầu hiện
+deactivate Trang quản lý loại giường
+Form cập nhật-->Admin: Hiển thị form
+deactivate Form cập nhật
+deactivate Admin
+
+space 
+activate Admin
+activate Form cập nhật
+Admin->Form cập nhật: Cập nhật thông tin 
+Admin->Form cập nhật: Chọn Update
+deactivate Admin
+
+activate Form cập nhật
+Form cập nhật->Form cập nhật: Kiểm tra
+deactivate Form cập nhật
+
+alt Thông tin không hợp lệ
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Form cập nhật
+end
+
+activate Form cập nhật
+activate CmsTypeBedController
+Form cập nhật->CmsTypeBedController: Gửi dữ liệu
+activate CmsTypeBedController
+CmsTypeBedController->CmsTypeBedController: Kiểm tra
+deactivate CmsTypeBedController
+
+alt Thông tin không hợp lệ
+CmsTypeBedController-->Form cập nhật: Trả lỗi
+deactivate CmsTypeBedController
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+end
+
+activate CmsTypeBedController
+activate TypeBedService
+CmsTypeBedController->TypeBedService: Yêu cầu cập nhật
+activate Database
+TypeBedService->Database: Cập nhật đối tượng
+Database-->TypeBedService: Trả về kết quả
+deactivate Database
+TypeBedService-->CmsTypeBedController: Trả về kết quả
+deactivate TypeBedService
+activate Form cập nhật
+CmsTypeBedController-->Form cập nhật: Trả về kết qủa
+deactivate CmsTypeBedController
+
+alt Thêm mới thất bại
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+deactivate Admin
+end
+activate Form cập nhật
+activate Admin
+Form cập nhật-->Trang quản lý loại giường: Chuyển trang
+Trang quản lý loại giường-->Admin: Thông báo thành công
+deactivate Form cập nhật
+deactivate Admin

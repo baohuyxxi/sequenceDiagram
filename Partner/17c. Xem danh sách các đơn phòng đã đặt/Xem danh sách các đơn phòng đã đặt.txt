@@ -1,0 +1,58 @@
+title Xem danh sách các đơn phòng đã đặt
+actor Người cho thuê
+boundary Trang chủ
+boundary Trang chủ host
+boundary Trang lịch sử đặt phòng
+
+control BookingController
+participant BookingService
+database Database
+
+activate Người cho thuê
+activate Trang chủ
+Người cho thuê->Trang chủ: Chọn chức năng quản lý nhà cho thuê
+activate Trang chủ host
+Trang chủ->Trang chủ host: Chuyển trang
+activate BookingController
+deactivate Trang chủ
+Trang chủ host->BookingController: Lấy danh sách đặt phòng
+activate BookingService
+BookingController->BookingService: Lấy dữ liệu
+activate Database
+BookingService->Database: Lấy dữ liệu
+Database-->BookingService: Trả về dữ liệu
+deactivate Database
+BookingService-->BookingController: Trả về dữ liệu
+deactivate BookingService
+BookingController-->Trang chủ host: Trả về dữ liệu
+deactivate BookingController
+Trang chủ host-->Người cho thuê: Hiển thị danh sách đặt phòng đang chờ trong ngày
+deactivate Người cho thuê
+deactivate Trang chủ host
+
+space 
+activate Người cho thuê
+activate Trang chủ host
+Người cho thuê->Trang chủ host: Chọn tab "Lịch sử giao dịch"
+activate Trang lịch sử đặt phòng
+Trang chủ host->Trang lịch sử đặt phòng: Chuyển trang
+deactivate Trang chủ host
+activate BookingController
+Trang lịch sử đặt phòng->BookingController: Lấy dữ liệu danh sách đặt phòng
+activate BookingService
+BookingController->BookingService: Lấy dữ liệu
+activate Database
+BookingService->Database: Lấy dữ liệu
+Database-->BookingService: Trả về dữ liệu
+deactivate Database
+BookingService-->BookingController: Trả về dữ liệu
+deactivate BookingService
+BookingController-->Trang lịch sử đặt phòng: Trả về dữ liệu
+deactivate BookingController
+Trang lịch sử đặt phòng-->Người cho thuê: Hiển thị danh sách lịch sử đặt phòng
+deactivate Trang lịch sử đặt phòng
+
+
+
+
+

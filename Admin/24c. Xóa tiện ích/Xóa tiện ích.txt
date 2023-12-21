@@ -1,0 +1,56 @@
+title Xóa tiện ích
+actor Admin
+boundary Trang quản lý tiện ích
+control CmsFacilityController
+participant FacilityService
+database Database
+
+activate Admin
+activate Trang quản lý tiện ích
+Admin->Trang quản lý tiện ích: Chọn icon xóa ở item muốn \nxóa trong lưới danh sách
+activate Trang quản lý tiện ích
+deactivate Admin
+Trang quản lý tiện ích->Trang quản lý tiện ích: Hiển thị xác nhận
+deactivate Trang quản lý tiện ích
+
+space 
+alt Chọn hủy
+activate Admin
+Trang quản lý tiện ích-->Admin: Hiển thị giao diện
+deactivate Trang quản lý tiện ích
+deactivate Admin
+end
+
+space 
+activate Admin
+activate Trang quản lý tiện ích
+Admin->Trang quản lý tiện ích: Xác nhận xóa
+activate CmsFacilityController
+Trang quản lý tiện ích->CmsFacilityController: Gửi yêu cầu
+deactivate Admin
+activate FacilityService
+CmsFacilityController->FacilityService: Yêu cầu cập nhật
+activate Database
+FacilityService->Database: Cập nhật đối tượng
+Database-->FacilityService: Trả về kết quả
+deactivate Database
+FacilityService-->CmsFacilityController: Trả về kết quả
+deactivate FacilityService
+CmsFacilityController-->Trang quản lý tiện ích: Trả về kết quả
+deactivate CmsFacilityController
+
+alt Xóa thất bại
+activate Admin
+Trang quản lý tiện ích-->Admin: Hiển thị thông báo lỗi
+deactivate Trang quản lý tiện ích
+deactivate Admin
+end
+
+activate Trang quản lý tiện ích
+activate Trang quản lý tiện ích
+Trang quản lý tiện ích->Trang quản lý tiện ích: Load lại dữ liệu
+activate Admin
+deactivate Trang quản lý tiện ích
+Trang quản lý tiện ích-->Admin: Hiển thị thông báo thành công
+deactivate Admin
+deactivate Trang quản lý tiện ích

@@ -1,0 +1,76 @@
+title Cập nhật loại hình cho thuê
+actor Admin
+boundary Trang quản lý loại hình cho thuê
+boundary Form cập nhật
+
+control CmsAccomCategoryController
+participant AccomCategoryService
+database Database
+
+activate Admin
+activate Trang quản lý loại hình cho thuê
+Admin->Trang quản lý loại hình cho thuê: Chọn biểu tượng cập nhật trong lưới danh sách
+activate Form cập nhật
+Trang quản lý loại hình cho thuê->Form cập nhật: Yêu cầu hiện
+deactivate Trang quản lý loại hình cho thuê
+Form cập nhật-->Admin: Hiển thị form
+deactivate Form cập nhật
+deactivate Admin
+
+space 
+activate Admin
+activate Form cập nhật
+Admin->Form cập nhật: Cập nhật thông tin 
+Admin->Form cập nhật: Chọn Update
+deactivate Admin
+
+activate Form cập nhật
+Form cập nhật->Form cập nhật: Kiểm tra
+deactivate Form cập nhật
+
+alt Thông tin không hợp lệ
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Admin
+deactivate Form cập nhật
+end
+
+activate Form cập nhật
+activate CmsAccomCategoryController
+Form cập nhật->CmsAccomCategoryController: Gửi dữ liệu
+activate CmsAccomCategoryController
+CmsAccomCategoryController->CmsAccomCategoryController: Kiểm tra
+deactivate CmsAccomCategoryController
+
+alt Thông tin không hợp lệ
+CmsAccomCategoryController-->Form cập nhật: Trả lỗi
+deactivate CmsAccomCategoryController
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+end
+
+activate CmsAccomCategoryController
+activate AccomCategoryService
+CmsAccomCategoryController->AccomCategoryService: Yêu cầu cập nhật
+activate Database
+AccomCategoryService->Database: Cập nhật đối tượng
+Database-->AccomCategoryService: Trả về kết quả
+deactivate Database
+AccomCategoryService-->CmsAccomCategoryController: Trả về kết quả
+deactivate AccomCategoryService
+activate Form cập nhật
+CmsAccomCategoryController-->Form cập nhật: Trả về kết qủa
+deactivate CmsAccomCategoryController
+
+alt Thêm mới thất bại
+activate Admin
+Form cập nhật-->Admin: Thông báo lỗi
+deactivate Form cập nhật
+deactivate Admin
+end
+activate Form cập nhật
+activate Admin
+Form cập nhật-->Trang quản lý loại hình cho thuê: Chuyển trang
+Trang quản lý loại hình cho thuê-->Admin: Thông báo thành công
+deactivate Form cập nhật
+deactivate Admin
