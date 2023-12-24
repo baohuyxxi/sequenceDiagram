@@ -2,8 +2,8 @@ title Xem Danh sách yêu thích
 actor Người dùng
 boundary Trang chủ
 boundary Trang danh sách yêu thích
-control PublicsController
-participant Service
+control ClientWishController
+participant WishService
 database Database
 
 activate Người dùng
@@ -13,18 +13,18 @@ Trang chủ->Trang danh sách yêu thích:Chuyển đến trang danh sách yêu 
 deactivate Trang chủ
 activate Trang danh sách yêu thích
 
-Trang danh sách yêu thích->PublicsController:Gửi yêu cầu lấy danh sách yêu thích
-activate PublicsController
-PublicsController->Service:Gửi yêu cầu lấy danh sách yêu thích
-activate Service
-Service->Database: Lấy dữ liệu chỗ ở từ Database
+Trang danh sách yêu thích->ClientWishController:Gửi yêu cầu lấy danh sách yêu thích
+activate ClientWishController
+ClientWishController->WishService:Gửi yêu cầu lấy danh sách yêu thích
+activate WishService
+WishService->Database: Lấy dữ liệu chỗ ở từ Database
 activate Database
-Database-->Service: Trả về kết quả
+Database-->WishService: Trả về kết quả
 deactivate Database
-Service-->PublicsController:Trả về danh sách yêu thích
-deactivate Service
-PublicsController-->Trang danh sách yêu thích:Trả về danh sách yêu thích
-deactivate PublicsController
+WishService-->ClientWishController:Trả về danh sách yêu thích
+deactivate WishService
+ClientWishController-->Trang danh sách yêu thích:Trả về danh sách yêu thích
+deactivate ClientWishController
 
 Trang danh sách yêu thích->Người dùng:Hiển thị danh sách yêu thích
 deactivate Trang danh sách yêu thích

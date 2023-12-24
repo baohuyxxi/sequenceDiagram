@@ -13,9 +13,10 @@ Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh
 activate Trang chủ
 Trang chủ-->Người dùng: Hiện danh sách thả xuống
 
-activate Trang danh sách chỗ đặt
+
 Người dùng->Trang chủ: Nhấn nút "Quản lý chỗ đặt"
 Trang chủ->Trang danh sách chỗ đặt: Chuyển trang "Quản lý chỗ đặt"
+activate Trang danh sách chỗ đặt
 deactivate Trang chủ
 Trang danh sách chỗ đặt->BookingController: Yêu cầu dữ liệu
 activate BookingController
@@ -36,6 +37,16 @@ Người dùng->Trang danh sách chỗ đặt:Ấn vào nút đánh giá
 Trang danh sách chỗ đặt->Trang danh sách chỗ đặt:Mở hộp thoại đánh giá
 activate Trang danh sách chỗ đặt
 Người dùng->Trang danh sách chỗ đặt:Nhập tiêu đề, nội dung, có thể thêm hình ảnh
+Trang danh sách chỗ đặt->Trang danh sách chỗ đặt:Kiểm tra định dạng hình ảnh
+alt Loại tệp Người dùng chọn không hợp lệ
+Trang danh sách chỗ đặt-->Người dùng:Thông báo hình ảnh không đúng định dạng
+deactivate Người dùng
+deactivate Trang danh sách chỗ đặt
+deactivate Trang danh sách chỗ đặt
+end
+activate Người dùng
+activate Trang danh sách chỗ đặt
+activate Trang danh sách chỗ đặt
 
 Trang danh sách chỗ đặt->BookingController:Gửi yêu cầu đánh giá
 deactivate Trang danh sách chỗ đặt
@@ -49,6 +60,7 @@ deactivate Database
 BookingService-->BookingController: Trả về kết quả
 deactivate BookingService
 BookingController-->Trang danh sách chỗ đặt: Trả về kết quả, cập nhật lại trạng thái
+deactivate BookingController
 Trang danh sách chỗ đặt-->Người dùng: Hiển thị thông báo đánh giá thành công
 deactivate Trang danh sách chỗ đặt
 deactivate Người dùng
