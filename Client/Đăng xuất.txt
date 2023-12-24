@@ -1,0 +1,27 @@
+title Đăng xuất
+actor Người dùng
+boundary Trang chủ
+
+activate Người dùng
+Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh điều hướng
+activate Trang chủ
+Trang chủ-->Người dùng:Hiện danh sách thả xuống
+
+
+Người dùng->Trang chủ:Nhấn nút "Đăng xuất"
+Trang chủ->Trang chủ:Hiện hộp thoại xác nhận đăng xuất
+activate Trang chủ
+alt Người dùng không chọn đăng xuất
+Người dùng->Trang chủ: Nhấn hủy
+deactivate Người dùng
+deactivate Trang chủ
+deactivate Trang chủ
+
+end
+activate Người dùng
+activate Trang chủ
+activate Trang chủ
+Người dùng->Trang chủ: Nhấn nút xác nhận
+deactivate Trang chủ
+Trang chủ->Trang chủ: Xóa thông tin đăng nhập của người dùng khỏi trình duyệt
+Trang chủ-->Người dùng:Thông báo đăng xuất thành công

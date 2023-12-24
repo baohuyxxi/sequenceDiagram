@@ -11,9 +11,10 @@ Người dùng->Trang chủ: Nhấn vào nút "Thông tin cá nhân" trên thanh
 activate Trang chủ
 Trang chủ-->Người dùng:Hiện danh sách thả xuống
 
-activate Trang danh sách chỗ đặt
+
 Người dùng->Trang chủ:Nhấn nút "Quản lý chỗ đặt"
 Trang chủ->Trang danh sách chỗ đặt:Chuyển trang "Quản lý chỗ đặt"
+activate Trang danh sách chỗ đặt
 deactivate Trang chủ
 Trang danh sách chỗ đặt->BookingController: Yêu cầu dữ liệu
 activate BookingController

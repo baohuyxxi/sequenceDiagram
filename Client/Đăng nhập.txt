@@ -107,7 +107,7 @@ deactivate AuthService
 
 AuthController-->Trang chủ:Trả về kết quả
 deactivate Trang chủ
-
+Trang chủ->Trang chủ:Lưu accsessToken
 deactivate AuthController
 
 

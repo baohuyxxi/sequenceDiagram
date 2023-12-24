@@ -1,0 +1,50 @@
+title Kích hoạt tài khoản
+actor Người dùng
+boundary Trang email
+boundary Trang kích hoạt tài khoản
+control AuthController
+participant AuthService
+database Database
+
+activate Người dùng
+Người dùng->Trang email: Mở email đã đăng ký
+activate Trang email
+Người dùng->Trang email: Mở email đã đăng ký để lấy liên kết xác nhận
+
+Người dùng->Trang email: Nhấp vào liên kết xác nhận tài khoản trong email
+Trang email->Trang kích hoạt tài khoản:Chuyển đến trang kích hoạt tài khoản
+deactivate Trang email
+activate Trang kích hoạt tài khoản
+Trang kích hoạt tài khoản->AuthController: Gửi yêu cầu kích hoạt tài khoản
+activate AuthController
+AuthController->AuthService: Gửi yêu cầu kích hoạt tài khoản
+activate AuthService
+AuthService->Database:Yêu cầu dữ liệu
+activate Database
+Database-->AuthService: Trả về kết quả
+deactivate Database
+AuthService->AuthService: Kiểm tra thời hạn token
+alt Token hết hạn
+AuthService-->AuthController:Trả về kết quả
+deactivate AuthService
+AuthController-->Trang kích hoạt tài khoản:Trả về kết quả
+Trang kích hoạt tài khoản-->Người dùng:Thông báo token hết hạn
+deactivate Trang kích hoạt tài khoản
+deactivate Người dùng
+deactivate AuthController
+end
+activate Người dùng
+activate Trang kích hoạt tài khoản
+activate AuthController
+activate AuthService
+AuthService->Database: Cập nhật trạng thái tài khoản
+activate Database
+Database-->AuthService: Trả về kết quả
+deactivate Database
+AuthService-->AuthController:Trả về kết quả
+deactivate AuthService
+AuthController-->Trang kích hoạt tài khoản: Trả về kết quả
+deactivate AuthController
+Trang kích hoạt tài khoản-->Người dùng:Thông báo kích hoạt tài khoản thành công
+deactivate Trang kích hoạt tài khoản
+deactivate Người dùng

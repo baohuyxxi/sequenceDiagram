@@ -1,0 +1,35 @@
+title Tìm kiếm Chỗ ở
+actor Người dùng
+boundary Trang chủ
+boundary Trang danh sách chỗ ở
+control PublicsController
+participant PublicsService
+database Database
+
+activate Người dùng
+Người dùng->Trang chủ: Nhập thông tin tìm kiếm vào ô tìm kiếm
+activate Trang chủ
+Trang chủ->PublicsController: Gửi yêu cầu tìm kiếm
+deactivate Trang chủ
+activate PublicsController
+PublicsController->PublicsService: Gửi yêu cầu tìm kiếm
+activate PublicsService
+PublicsService->Database: Truy vấn dữ liệu tìm kiếm
+activate Database
+Database-->PublicsService: Trả về kết quả tìm kiếm
+deactivate Database
+PublicsService-->PublicsController: Trả về kết quả
+deactivate PublicsService
+PublicsController-->Trang danh sách chỗ ở:Trả về kết quả
+deactivate PublicsController
+activate Trang danh sách chỗ ở
+alt Không tìm thấy kết quả phù hợp
+Trang danh sách chỗ ở-->Người dùng:Thông báo không tim thấy kết quả phù hơp
+deactivate Người dùng
+deactivate Trang danh sách chỗ ở
+end
+activate Người dùng
+activate Trang danh sách chỗ ở
+Trang danh sách chỗ ở-->Người dùng: Hiển thị danh sách chỗ ở phù hợp với kết quả tìm kiếm
+deactivate Trang danh sách chỗ ở
+deactivate Người dùng
