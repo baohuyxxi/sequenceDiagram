@@ -8,8 +8,9 @@ database Database
 
 
 activate Người dùng
-activate Trang chủ
+
 Người dùng->Trang chủ: Nhấn vào nút thông tin cá nhân trên thanh appbar
+activate Trang chủ
 Trang chủ-->Người dùng:Hiện danh sách thả xuống
 Người dùng->Trang chủ:Nhấn nút "Quản lý tài khoản"
 
